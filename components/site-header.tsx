@@ -20,7 +20,7 @@ export function SiteHeader() {
       </Link>
 
       <DropdownMenu>
-        <DropdownMenuTrigger className="text-sm inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-sm px-1">
+        <DropdownMenuTrigger className="text-sm inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm px-1">
           Products <ChevronDown className="h-4 w-4" aria-hidden="true" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="min-w-[240px]">
@@ -50,7 +50,7 @@ export function SiteHeader() {
             </Link>
           </DropdownMenuItem>
           <div className="px-2 pt-2">
-            <div className="text-xs text-muted-foreground px-2 pb-1">Courses</div>
+            <div className="px-2 pb-1 text-xs text-muted-foreground">Courses</div>
             <DropdownMenuItem asChild>
               <Link href="/courses" className="w-full">
                 All Courses
@@ -58,7 +58,7 @@ export function SiteHeader() {
             </DropdownMenuItem>
           </div>
           <div className="px-2 pt-2">
-            <div className="text-xs text-muted-foreground px-2 pb-1">Commerce</div>
+            <div className="px-2 pb-1 text-xs text-muted-foreground">Commerce</div>
             <DropdownMenuItem asChild>
               <Link href="/commerce" className="w-full">
                 Shop
@@ -109,7 +109,7 @@ export function SiteHeader() {
           </div>
         </DialogContent>
       </Dialog>
-      <Button asChild variant="default" className="bg-emerald-600 hover:bg-emerald-700">
+      <Button asChild>
         <Link href="/account/onboarding">Start free</Link>
       </Button>
       <Button asChild variant="outline">
