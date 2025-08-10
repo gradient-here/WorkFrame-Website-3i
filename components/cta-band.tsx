@@ -9,8 +9,8 @@ export function CtaBand({
   return (
     <section className="my-16">
       <div className="mx-auto max-w-[1200px] rounded-lg border bg-muted/40 px-6 py-10 text-center">
-        <h3 className="text-xl font-semibold tracking-tight mb-3">{copy}</h3>
-        <Button asChild className="bg-emerald-600 hover:bg-emerald-700">
+        <h3 className="mb-3 text-xl font-semibold tracking-tight">{copy}</h3>
+        <Button asChild>
           <Link href={href}>{buttonText}</Link>
         </Button>
       </div>
