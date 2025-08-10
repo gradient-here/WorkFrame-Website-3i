@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -5,14 +6,15 @@ import { Badge } from "@/components/ui/badge"
 import { CourseCard } from "@/components/course-card"
 import { Testimonial } from "@/components/testimonial"
 import { CtaBand } from "@/components/cta-band"
-import { BookOpen, Wand2, MessagesSquare, PlayCircle } from "lucide-react"
+import { Sparkles, BookOpen, Wand2, MessagesSquare, PlayCircle } from "lucide-react"
 import { ToolCard } from "@/components/tool-card"
 import { PrimaryChip } from "@/components/primary-chip"
+import { motion } from 'framer-motion'
 
-export const metadata = {
-  title: "WorkFrame — Tools and courses to turn reading into content",
-  description: "Turn what you read into ideas and publishable work with WorkFrame’s tools, courses, and community.",
-}
+// export const metadata = {
+//   title: "WorkFrame — Tools and courses to turn reading into content",
+//   description: "Turn what you read into ideas and publishable work with WorkFrames tools, courses, and community.",
+// }
 
 export default function HomePage() {
   return (
@@ -21,6 +23,21 @@ export default function HomePage() {
       <section className="border-b">
         <div className="mx-auto grid max-w-[1200px] items-center gap-10 px-4 py-16 md:grid-cols-2 md:px-6 md:py-24">
           <div>
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center space-x-2 background-transparent text-black px-4 py-2 mb-8 rounded-full border border-neutral-200 hover:bg-neutral-50 transition-colors"
+            >
+              <Sparkles className="w-4 h-4 text-accent-500" />
+              <span className="text-sm font-small text-muted-foreground">
+                Trusted by writers, researchers, and lifelong learners.
+              </span>
+            </motion.div>
+            {/* <div className="mt-4">
+              <Badge variant="secondary">{"Trusted by writers, researchers, and lifelong learners."}</Badge>
+            </div> */}
             <h1 className="text-4xl/tight font-semibold tracking-tight md:text-5xl">From book to brilliant idea</h1>
             <p className="mt-4 text-lg text-muted-foreground">
               Tools and courses that turn what you read into reusable ideas — and reusable ideas into finished content.
@@ -36,19 +53,16 @@ export default function HomePage() {
                 </Link>
               </Button>
             </div>
-            <div className="mt-4">
-              <Badge variant="secondary">{"Trusted by writers, researchers, and lifelong learners."}</Badge>
-            </div>
           </div>
           <div aria-hidden="true" className="relative">
             <img
-              src="/placeholder.svg?height=420&width=600"
+              src="/readwrite.png?height=420&width=600"
               alt="Diagram of the Read → Record → Write workflow"
-              className="w-full rounded-lg border object-cover grayscale contrast-125"
+              // className="w-full rounded-lg border object-cover grayscale contrast-125"
               height={420}
               width={600}
             />
-            <PrimaryChip className="absolute bottom-3 right-3" size="md" />
+            {/* <PrimaryChip className="absolute bottom-3 right-3" size="md" /> */}
           </div>
         </div>
       </section>

@@ -15,9 +15,10 @@ export function PrimaryChip({ className, size = "md" }: PrimaryChipProps) {
   const gap = size === "sm" ? "gap-1" : "gap-1.5"
   return (
     <div className={cn("inline-flex items-center", gap, className)}>
-      <span className={cn("rounded-sm bg-red-600", h, w)} aria-hidden="true" />
+      {/* <span className={cn("rounded-sm bg-red-600", h, w)} aria-hidden="true" />
       <span className={cn("rounded-sm bg-yellow-400", h, w)} aria-hidden="true" />
-      <span className={cn("rounded-sm bg-blue-600", h, w)} aria-hidden="true" />
+      <span className={cn("rounded-sm bg-blue-600", h, w)} aria-hidden="true" /> */}
+      <span>🟨🟦🟥</span>
       <span className="sr-only">Primary color accent</span>
     </div>
   )
