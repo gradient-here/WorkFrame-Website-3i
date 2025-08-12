@@ -4,6 +4,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
 import { NewsletterForm } from "@/components/newsletter-form"
 
+async function sendDiscordWebhook({ action }: {action: string}) {
+  const content = `Community Engagement!\action: ${action}`
+  const res = await fetch("/api/discord-webhook", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content }),
+  })
+  return res.ok
+}
+
 export default function ResourcesClient() {
   return (
     <>
@@ -21,19 +31,19 @@ export default function ResourcesClient() {
         <TabsContent value="blog" className="mt-6">
           <div className="grid gap-6 md:grid-cols-3">
             <Card>
-              <CardContent className="pt-6">
+              <CardContent onClick={() => sendDiscordWebhook({ action: "Reading with purpose" })}  className="pt-6">
                 <h3 className="font-medium">Reading with purpose</h3>
                 <p className="mt-2 text-sm text-muted-foreground">Pick books that support your work.</p>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="pt-6">
+              <CardContent onClick={() => sendDiscordWebhook({ action: "Atomic notes 101" })} className="pt-6">
                 <h3 className="font-medium">Atomic notes 101</h3>
                 <p className="mt-2 text-sm text-muted-foreground">Write notes you’ll reuse.</p>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="pt-6">
+              <CardContent onClick={() => sendDiscordWebhook({ action: "From notes to draft" })} className="pt-6">
                 <h3 className="font-medium">From notes to draft</h3>
                 <p className="mt-2 text-sm text-muted-foreground">Structure fast with synthesis.</p>
               </CardContent>
@@ -44,17 +54,17 @@ export default function ResourcesClient() {
         <TabsContent value="downloads" className="mt-6">
           <div className="grid gap-6 md:grid-cols-3">
             <Card>
-              <CardContent className="pt-6">
+              <CardContent onClick={() => sendDiscordWebhook({ action: "Reading habit PDF" })} className="pt-6">
                 <h3 className="font-medium">Reading habit PDF</h3>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="pt-6">
+              <CardContent onClick={() => sendDiscordWebhook({ action: "Zettelkasten template" })} className="pt-6">
                 <h3 className="font-medium">Zettelkasten template</h3>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="pt-6">
+              <CardContent onClick={() => sendDiscordWebhook({ action: "Distribution checklist" })} className="pt-6">
                 <h3 className="font-medium">Distribution checklist</h3>
               </CardContent>
             </Card>
@@ -64,19 +74,19 @@ export default function ResourcesClient() {
         <TabsContent value="videos" className="mt-6">
           <div className="grid gap-6 md:grid-cols-3">
             <Card>
-              <CardContent className="pt-6">
+              <CardContent onClick={() => sendDiscordWebhook({ action: "Quickread demo" })} className="pt-6">
                 <h3 className="font-medium">Quickread demo</h3>
                 <p className="mt-2 text-sm text-muted-foreground">2‑minute pick‑the‑book tour.</p>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="pt-6">
+              <CardContent onClick={() => sendDiscordWebhook({ action: "Atomizer walkthrough" })} className="pt-6">
                 <h3 className="font-medium">Atomizer walkthrough</h3>
                 <p className="mt-2 text-sm text-muted-foreground">Map a topic in minutes.</p>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="pt-6">
+              <CardContent onClick={() => sendDiscordWebhook({ action: "Full workflow" })} className="pt-6">
                 <h3 className="font-medium">Full workflow</h3>
                 <p className="mt-2 text-sm text-muted-foreground">Read → Record → Write in action.</p>
               </CardContent>

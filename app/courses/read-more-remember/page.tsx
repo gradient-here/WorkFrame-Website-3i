@@ -17,7 +17,7 @@ export default function ReadMoreCourse() {
             A practical system for choosing what to read, building the habit, and capturing ideas you’ll use later.
           </p>
           <div className="mt-6 flex gap-3">
-            <Button className="bg-emerald-600 hover:bg-emerald-700">Enroll now</Button>
+            <Button className="bg-indigo-600 hover:bg-indigo-700">Enroll now</Button>
             <Button variant="outline">See syllabus</Button>
           </div>
         </div>

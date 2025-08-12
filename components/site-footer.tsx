@@ -16,16 +16,16 @@ export function SiteFooter() {
             <h4 className="text-sm font-semibold mb-3">Products</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link className="hover:underline" href="/products/quickread">
+                <Link className="hover:underline" href="http://tangram.tools/quickread">
                   Quickread
                 </Link>
               </li>
               <li>
-                <Link className="hover:underline" href="/products/topic-atomizer">
-                  Topic Atomizer
+                <Link className="hover:underline" href="http://tangram.tools/z">
+                  Zettelkasten
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link className="hover:underline" href="/products/chat-on-a-page">
                   Chat on a Page
                 </Link>
@@ -34,14 +34,14 @@ export function SiteFooter() {
                 <Link className="hover:underline" href="/products/chat">
                   Chat
                 </Link>
-              </li>
+              </li> */}
               <li>
-                <Link className="hover:underline" href="/courses">
+                <Link className="hover:underline" href="/">
                   Courses
                 </Link>
               </li>
               <li>
-                <Link className="hover:underline" href="/commerce">
+                <Link className="hover:underline" href="/">
                   Commerce
                 </Link>
               </li>
@@ -52,7 +52,7 @@ export function SiteFooter() {
             <h4 className="text-sm font-semibold mb-3">Company</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link className="hover:underline" href="/about">
+                <Link className="hover:underline" href="/">
                   About
                 </Link>
               </li>
@@ -60,7 +60,7 @@ export function SiteFooter() {
                 <span className="text-muted-foreground">Careers (future)</span>
               </li>
               <li>
-                <Link className="hover:underline" href="/press">
+                <Link className="hover:underline" href="/">
                   Press Kit
                 </Link>
               </li>

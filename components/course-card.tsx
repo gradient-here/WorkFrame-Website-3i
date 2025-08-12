@@ -8,7 +8,7 @@ type CourseCardProps = {
   href: string
 }
 
-export function CourseCard({ title = "Course Title", blurb = "Short blurb", href = "/" }: CourseCardProps) {
+export function CourseCard({ title = "Course Title", blurb = "Short blurb", href = "" }: CourseCardProps) {
   return (
     <Card className="h-full">
       <CardHeader>

@@ -16,6 +16,17 @@ import { motion } from 'framer-motion'
 //   description: "Turn what you read into ideas and publishable work with WorkFrames tools, courses, and community.",
 // }
 
+async function sendDiscordWebhook({ action }: {action: string}) {
+  const content = `Product Engagement!\action: ${action}`
+  const res = await fetch("/api/discord-webhook", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content }),
+  })
+  return res.ok
+}
+
+
 export default function HomePage() {
   return (
     <div>
@@ -116,17 +127,17 @@ export default function HomePage() {
             <ToolCard
               title="Quickread"
               description="Pick your next book with confidence."
-              href="/products/quickread"
+              href="http://tangram.tools/quickread"
               imageUrl="/placeholder.svg?height=160&width=320"
             />
             <ToolCard
-              title="Topic Atomizer"
+              title="Zettelkasten"
               description="Break any idea into angles, arguments, and questions."
-              href="/products/topic-atomizer"
+              href="http://tangram.tools/z"
               imageUrl="/placeholder.svg?height=160&width=320"
             />
-            <ToolCard
-              title="Chat on a Page"
+            {/* <ToolCard
+              title="Topic Atomizer"
               description="Converse with a page while you read."
               href="/products/chat-on-a-page"
               imageUrl="/placeholder.svg?height=160&width=320"
@@ -136,7 +147,7 @@ export default function HomePage() {
               description="Synthesize across your notes for outlines and drafts."
               href="/products/chat"
               imageUrl="/placeholder.svg?height=160&width=320"
-            />
+            /> */}
           </div>
         </div>
       </section>
@@ -171,16 +182,31 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1200px] px-4 md:px-6">
           <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Learn the system behind the tools</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
-            <CourseCard
+            <div onClick={() => sendDiscordWebhook({action: "Read More & Remember"})}>
+              <CourseCard
+                title="How to Read More & Remember What You’ve Read"
+                blurb="Build the habits and capture systems that stick."
+                href="/"
+              />
+            </div>
+            <div onClick={() => sendDiscordWebhook({action: "Mining Second Brain"})}>
+              <CourseCard
+                title="Mining Your Second Brain for Content"
+                blurb="Turn notes into a reliable content engine."
+                href="/"
+              />
+            </div>
+            {/* <CourseCard
+              onClick={() => sendDiscordWebhook({action: "Read More & Remember"})}
               title="How to Read More & Remember What You’ve Read"
               blurb="Build the habits and capture systems that stick."
-              href="/courses/read-more-remember"
+              href="/"
             />
             <CourseCard
               title="Mining Your Second Brain for Content"
               blurb="Turn notes into a reliable content engine."
-              href="/courses/mining-second-brain"
-            />
+              // href="/courses/mining-second-brain"
+            /> */}
           </div>
         </div>
       </section>

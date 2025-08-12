@@ -30,11 +30,17 @@ export default function ContactForm() {
     }
     setLoading(true)
     try {
-      const res = await fetch("/api/contact", {
+      const content = `New Contact Form!\nName: ${name}\nEmail: ${email}\nReason: ${reason}\nMessage: ${message}`
+      const res = await fetch("/api/discord-webhook", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, reason, message }),
+        body: JSON.stringify({ content }),
       })
+      // return res.ok
+
+
+
+      // const ?
       if (!res.ok) throw new Error("Failed")
       setName("")
       setEmail("")
@@ -84,9 +90,9 @@ export default function ContactForm() {
         <Textarea id="message" placeholder="Message" value={message} onChange={(e) => setMessage(e.target.value)} />
       </div>
       {error && <p className="text-sm text-red-600">{error}</p>}
-      {success && <p className="text-sm text-emerald-700">{success}</p>}
+      {success && <p className="text-sm text-indigo-700">{success}</p>}
       <div>
-        <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700" disabled={loading}>
+        <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700" disabled={loading}>
           {loading ? "Sending…" : "Send message"}
         </Button>
       </div>

@@ -20,7 +20,7 @@ export default function SettingsPage() {
               <Input placeholder="First name" />
               <Input placeholder="Last name" />
               <Input placeholder="Email" />
-              <Button className="bg-emerald-600 hover:bg-emerald-700">Save</Button>
+              <Button className="bg-indigo-600 hover:bg-indigo-700">Save</Button>
             </div>
           </CardContent>
         </Card>

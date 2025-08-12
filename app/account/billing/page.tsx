@@ -16,7 +16,7 @@ export default function BillingPage() {
             <h3 className="font-medium">Current plan</h3>
             <p className="mt-1 text-sm text-muted-foreground">Trial — 14 days remaining</p>
             <div className="mt-4 flex gap-3">
-              <Button className="bg-emerald-600 hover:bg-emerald-700">Change plan</Button>
+              <Button className="bg-indigo-600 hover:bg-indigo-700">Change plan</Button>
               <Button variant="outline">Cancel</Button>
             </div>
           </CardContent>

@@ -18,7 +18,7 @@ export default function ChatOnAPage() {
             Ask questions and annotate as you read a page. Capture highlights as atomic notes.
           </p>
           <div className="mt-6">
-            <Button asChild className="bg-emerald-600 hover:bg-emerald-700">
+            <Button asChild className="bg-indigo-600 hover:bg-indigo-700">
               <Link href="/account/onboarding">Open Chat on a Page</Link>
             </Button>
           </div>
@@ -55,13 +55,13 @@ export default function ChatOnAPage() {
         <h2 className="mt-12 text-xl font-semibold">Features</h2>
         <ul className="mt-4 grid gap-2 text-sm">
           <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Side‑by‑side reading + chat
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Side‑by‑side reading + chat
           </li>
           <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Inline citations to the source
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Inline citations to the source
           </li>
           <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-emerald-600" /> One‑click export to notes
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> One‑click export to notes
           </li>
         </ul>
       </section>

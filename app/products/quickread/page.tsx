@@ -19,7 +19,7 @@ export default function QuickreadPage() {
               Quickread matches your goals with a shortlist of high‑leverage books.
             </p>
             <div className="mt-6">
-              <Button asChild className="bg-emerald-600 hover:bg-emerald-700">
+              <Button asChild className="bg-indigo-600 hover:bg-indigo-700">
                 <Link href="/account/onboarding">Try Quickread free</Link>
               </Button>
             </div>
@@ -57,16 +57,16 @@ export default function QuickreadPage() {
         <h2 className="mt-12 text-xl font-semibold">Features</h2>
         <ul className="mt-4 grid gap-2 text-sm">
           <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Goal‑based recommendations
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Goal‑based recommendations
           </li>
           <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-emerald-600" /> “Why this book” reasoning
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> “Why this book” reasoning
           </li>
           <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Reading queue with reminders
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Reading queue with reminders
           </li>
           <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Export to notes (Z‑ready)
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Export to notes (Z‑ready)
           </li>
         </ul>
 

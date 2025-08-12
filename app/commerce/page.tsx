@@ -21,7 +21,7 @@ export default function CommercePage() {
             <p className="mt-2 text-sm text-muted-foreground">
               Staff picks with honest notes; links support the project.
             </p>
-            <Button className="mt-4 bg-emerald-600 hover:bg-emerald-700">Shop now</Button>
+            <Button className="mt-4 bg-indigo-600 hover:bg-indigo-700">Shop now</Button>
           </CardContent>
         </Card>
         <Card>
@@ -30,14 +30,14 @@ export default function CommercePage() {
             <p className="mt-2 text-sm text-muted-foreground">
               Notebooks, pencils, notepads designed for atomic notes.
             </p>
-            <Button className="mt-4 bg-emerald-600 hover:bg-emerald-700">Shop now</Button>
+            <Button className="mt-4 bg-indigo-600 hover:bg-indigo-700">Shop now</Button>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
             <h3 className="font-medium">Merch</h3>
             <p className="mt-2 text-sm text-muted-foreground">Hoodies and simple apparel.</p>
-            <Button className="mt-4 bg-emerald-600 hover:bg-emerald-700">Shop now</Button>
+            <Button className="mt-4 bg-indigo-600 hover:bg-indigo-700">Shop now</Button>
           </CardContent>
         </Card>
       </div>

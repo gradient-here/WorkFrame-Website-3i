@@ -46,7 +46,7 @@ export default function ProductsPage() {
             <CardContent className="pt-6">
               <h3 className="font-medium">How to Read More & Remember What You’ve Read</h3>
               <p className="mt-2 text-sm text-muted-foreground">Habits, capture, and recall.</p>
-              <Link href="/courses/read-more-remember" className="mt-3 inline-block text-emerald-700 hover:underline">
+              <Link href="/courses/read-more-remember" className="mt-3 inline-block text-indigo-700 hover:underline">
                 See syllabus
               </Link>
             </CardContent>
@@ -55,7 +55,7 @@ export default function ProductsPage() {
             <CardContent className="pt-6">
               <h3 className="font-medium">Mining Your Second Brain for Content</h3>
               <p className="mt-2 text-sm text-muted-foreground">Turn notes into a content engine.</p>
-              <Link href="/courses/mining-second-brain" className="mt-3 inline-block text-emerald-700 hover:underline">
+              <Link href="/courses/mining-second-brain" className="mt-3 inline-block text-indigo-700 hover:underline">
                 See syllabus
               </Link>
             </CardContent>
@@ -96,7 +96,7 @@ export default function ProductsPage() {
         <div>
           <h3 className="font-semibold">Not sure where to start? Try Quickread — it’s free.</h3>
         </div>
-        <Button asChild className="bg-emerald-600 hover:bg-emerald-700">
+        <Button asChild className="bg-indigo-600 hover:bg-indigo-700">
           <Link href="/products/quickread">Try Quickread</Link>
         </Button>
       </section>

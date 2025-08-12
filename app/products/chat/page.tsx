@@ -18,7 +18,7 @@ export default function SynthesisChatPage() {
             Turn connected notes into outlines, briefs, and draft sections.
           </p>
           <div className="mt-6">
-            <Button asChild className="bg-emerald-600 hover:bg-emerald-700">
+            <Button asChild className="bg-indigo-600 hover:bg-indigo-700">
               <Link href="/account/onboarding">Start a synthesis</Link>
             </Button>
           </div>
@@ -55,13 +55,13 @@ export default function SynthesisChatPage() {
         <h2 className="mt-12 text-xl font-semibold">Features</h2>
         <ul className="mt-4 grid gap-2 text-sm">
           <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Works on your Z connections
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Works on your Z connections
           </li>
           <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Draft snippets with citations
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Draft snippets with citations
           </li>
           <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Distribution checklist (for blog/newsletter/video)
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Distribution checklist (for blog/newsletter/video)
           </li>
         </ul>
       </section>

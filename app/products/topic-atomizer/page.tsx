@@ -18,7 +18,7 @@ export default function AtomizerPage() {
             Atomize any topic into angles, questions, and sources to explore.
           </p>
           <div className="mt-6">
-            <Button asChild className="bg-emerald-600 hover:bg-emerald-700">
+            <Button asChild className="bg-indigo-600 hover:bg-indigo-700">
               <Link href="/account/onboarding">Explore Atomizer</Link>
             </Button>
           </div>
@@ -55,13 +55,13 @@ export default function AtomizerPage() {
         <h2 className="mt-12 text-xl font-semibold">Features</h2>
         <ul className="mt-4 grid gap-2 text-sm">
           <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Cross‑discipline prompts
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Cross‑discipline prompts
           </li>
           <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Opposing view generation
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Opposing view generation
           </li>
           <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Link suggestions to existing notes
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Link suggestions to existing notes
           </li>
         </ul>
 

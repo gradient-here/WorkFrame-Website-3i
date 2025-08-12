@@ -1,18 +1,56 @@
+"use client"
+
+import { useState } from "react"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
 
-export const metadata = {
-  title: "Account — Dashboard",
-  description: "Your WorkFrame dashboard",
-}
+// export const metadata = {
+//   title: "Account — Dashboard",
+//   description: "Your WorkFrame dashboard",
+// }
 
 export default function DashboardPage() {
   const firstName = "Alex"
+  const [email, setEmail] = useState("");
   return (
     <div>
+
       <header className="mb-4">
+        <h1 className="text-2xl font-semibold">Welcome back!</h1>
+      </header>
+
+      <section className="mt-6">
+        <h2 className="text-lg font-medium">Email</h2>
+        <Input
+          id="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="mt-2"
+        />
+      </section>
+      <section className="mt-6">
+        <h2 className="text-lg font-medium">Passowrd</h2>
+        <Input
+          id="email"
+          placeholder=""
+          type="password"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="mt-2"
+        />
+      </section>
+      <section className="mt-6">
+        <Button variant="outline" onClick={()=>{}}>
+          Login
+        </Button>
+      </section>
+
+
+      {/* <header className="mb-4">
         <h1 className="text-2xl font-semibold">Welcome back, {firstName}</h1>
       </header>
 
@@ -21,7 +59,7 @@ export default function DashboardPage() {
           <CardContent className="pt-6">
             <h3 className="font-medium">Your queue</h3>
             <p className="mt-2 text-sm text-muted-foreground">No books yet. Use Quickread to build your queue.</p>
-            <Button asChild size="sm" className="mt-3 bg-emerald-600 hover:bg-emerald-700">
+            <Button asChild size="sm" className="mt-3 bg-indigo-600 hover:bg-indigo-700">
               <Link href="/products/quickread">Try Quickread</Link>
             </Button>
           </CardContent>
@@ -41,16 +79,16 @@ export default function DashboardPage() {
           <CardContent className="pt-6">
             <h3 className="font-medium">Start a new…</h3>
             <div className="mt-3 grid gap-2">
-              <Link href="/products/quickread" className="text-sm text-emerald-700 hover:underline">
+              <Link href="/products/quickread" className="text-sm text-indigo-700 hover:underline">
                 Quickread
               </Link>
-              <Link href="/products/topic-atomizer" className="text-sm text-emerald-700 hover:underline">
+              <Link href="/products/topic-atomizer" className="text-sm text-indigo-700 hover:underline">
                 Atomize topic
               </Link>
-              <Link href="/products/chat-on-a-page" className="text-sm text-emerald-700 hover:underline">
+              <Link href="/products/chat-on-a-page" className="text-sm text-indigo-700 hover:underline">
                 Chat on a Page
               </Link>
-              <Link href="/products/chat" className="text-sm text-emerald-700 hover:underline">
+              <Link href="/products/chat" className="text-sm text-indigo-700 hover:underline">
                 Synthesize
               </Link>
             </div>
@@ -64,7 +102,7 @@ export default function DashboardPage() {
           <Badge variant="secondary">Read More & Remember — 0%</Badge>
           <Badge variant="secondary">Mining Your Second Brain — 0%</Badge>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

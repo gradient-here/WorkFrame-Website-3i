@@ -22,7 +22,7 @@ export default function CoursesPage() {
             <h3 className="font-medium">How to Read More & Remember What You’ve Read</h3>
             <p className="mt-2 text-sm text-muted-foreground">Habits, capture, and recall.</p>
             <div className="mt-3 space-x-4">
-              <Link href="/courses/read-more-remember" className="text-emerald-700 hover:underline">
+              <Link href="/courses/read-more-remember" className="text-indigo-700 hover:underline">
                 See syllabus
               </Link>
               <Link href="/account/onboarding" className="hover:underline">
@@ -36,7 +36,7 @@ export default function CoursesPage() {
             <h3 className="font-medium">Mining Your Second Brain for Content</h3>
             <p className="mt-2 text-sm text-muted-foreground">Turn notes into a content engine.</p>
             <div className="mt-3 space-x-4">
-              <Link href="/courses/mining-second-brain" className="text-emerald-700 hover:underline">
+              <Link href="/courses/mining-second-brain" className="text-indigo-700 hover:underline">
                 See syllabus
               </Link>
               <Link href="/account/onboarding" className="hover:underline">

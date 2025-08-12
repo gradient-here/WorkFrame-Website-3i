@@ -1,10 +1,22 @@
+"use client"
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
-export const metadata = {
-  title: "How WorkFrame Works — From reading to content",
-  description: "See how the WorkFrame workflow turns reading into connected notes and publishable output.",
+// export const metadata = {
+//   title: "How WorkFrame Works — From reading to content",
+//   description: "See how the WorkFrame workflow turns reading into connected notes and publishable output.",
+// }
+
+async function sendDiscordWebhook({ action }: {action: string}) {
+  const content = `Community Engagement!\action: ${action}`
+  const res = await fetch("/api/discord-webhook", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content }),
+  })
+  return res.ok
 }
 
 export default function HowItWorksPage() {
@@ -38,13 +50,13 @@ export default function HowItWorksPage() {
         </Card>
       </section>
 
-      <section className="mt-12 rounded-lg border p-6 grid gap-4 md:grid-cols-[1fr_240px] items-center">
+      <section onClick={() => sendDiscordWebhook({ action: "Case study" })} className="mt-12 rounded-lg border p-6 grid gap-4 md:grid-cols-[1fr_240px] items-center">
         <div>
           <h3 className="font-semibold">Case study</h3>
           <p className="mt-1 text-sm text-muted-foreground">One book → 5 notes → 2 essays & a talk.</p>
         </div>
         <img
-          src="/placeholder.svg?height=160&width=240"
+          src="/readwrite.png?height=160&width=240"
           alt="Case study diagram"
           className="w-full rounded-md border"
           height={160}
@@ -53,7 +65,7 @@ export default function HowItWorksPage() {
       </section>
 
       <div className="mt-12">
-        <Button asChild className="bg-emerald-600 hover:bg-emerald-700">
+        <Button asChild className="bg-indigo-600 hover:bg-indigo-700">
           <Link href="/account/onboarding">Try the workflow</Link>
         </Button>
       </div>

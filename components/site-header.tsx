@@ -19,7 +19,7 @@ export function SiteHeader() {
         Home
       </Link>
 
-      <DropdownMenu>
+      {/* <DropdownMenu>
         <DropdownMenuTrigger className="text-sm inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm px-1">
           Products <ChevronDown className="h-4 w-4" aria-hidden="true" />
         </DropdownMenuTrigger>
@@ -66,7 +66,7 @@ export function SiteHeader() {
             </DropdownMenuItem>
           </div>
         </DropdownMenuContent>
-      </DropdownMenu>
+      </DropdownMenu> */}
 
       <Link href="/how-it-works" className="text-sm hover:underline underline-offset-4">
         How It Works
@@ -77,9 +77,9 @@ export function SiteHeader() {
       <Link href="/community" className="text-sm hover:underline underline-offset-4">
         Community
       </Link>
-      <Link href="/about" className="text-sm hover:underline underline-offset-4">
+      {/* <Link href="/about" className="text-sm hover:underline underline-offset-4">
         About
-      </Link>
+      </Link> */}
       <Link href="/contact" className="text-sm hover:underline underline-offset-4">
         Contact
       </Link>

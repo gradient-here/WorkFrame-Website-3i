@@ -61,7 +61,7 @@ export function NewsletterForm() {
           </p>
         )}
       </div>
-      <Button type="submit" className="bg-emerald-600 hover:bg-emerald-700" disabled={loading}>
+      <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700" disabled={loading}>
         {loading ? "Subscribing…" : "Subscribe"}
       </Button>
     </form>
