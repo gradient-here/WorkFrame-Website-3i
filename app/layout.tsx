@@ -28,6 +28,20 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-M37GC2FFE9"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-M37GC2FFE9', { page_path: window.location.pathname });
+            `,
+          }}
+        />
+      </head>
       <body className="antialiased">
         <SiteHeader />
         <main>{children}</main>
