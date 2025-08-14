@@ -14,22 +14,22 @@ export default function QuickreadPage() {
       <section className="border-b">
         <div className="mx-auto max-w-[1200px] px-4 md:px-6 py-14 md:py-20 grid gap-10 md:grid-cols-2 items-center">
           <div>
-            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">Pick the right book, right now</h1>
+            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">Decide What to Read Next in Seconds.</h1>
             <p className="mt-3 text-lg text-muted-foreground">
-              Quickread matches your goals with a shortlist of high‑leverage books.
+              QuickRead by WorkFrame gives you instant summaries and key insights, making it fast and easy to find your next great read with confidence.
             </p>
             <div className="mt-6">
               <Button asChild className="bg-indigo-600 hover:bg-indigo-700">
-                <Link href="/account/onboarding">Try Quickread free</Link>
+                <Link href="https://buy.stripe.com/6oUdR873ad7R2GTc3rfrW00">Get Quickread</Link>
               </Button>
             </div>
           </div>
-          <img
-            src="/placeholder.svg?height=360&width=520"
-            alt="Quickread UI screenshot"
-            className="w-full rounded-lg border"
-            height={360}
-            width={520}
+          <video
+            src="/workframe_quickread.mp4"
+            className="w-full rounded-lg max-w-md mx-auto md:max-w-none md:w-2/3"
+            autoPlay
+            loop
+            muted
           />
         </div>
       </section>
