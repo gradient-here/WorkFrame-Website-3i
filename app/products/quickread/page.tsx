@@ -25,12 +25,26 @@ export default function QuickreadPage() {
             </div>
           </div>
           <video
+            className="w-full rounded-lg max-w-md mx-auto md:max-w-none md:w-2/3"
+            playsInline           // important for iOS
+            muted                 // required for autoplay
+            autoPlay              // will work only if muted + inline
+            loop
+            preload="auto"        // optional: hint to load
+            poster="/workframe_quickread_poster.jpg" // optional: placeholder frame
+          >
+            <source src="/workframe_quickread.mp4" type="video/mp4" />
+            {/* Optional second source for broader support */}
+            <source src="/workframe_quickread.webm" type="video/webm" />
+          </video>
+
+          {/* <video
             src="/workframe_quickread.mp4"
             className="w-full rounded-lg max-w-md mx-auto md:max-w-none md:w-2/3"
             autoPlay
             loop
             muted
-          />
+          /> */}
         </div>
       </section>
 
