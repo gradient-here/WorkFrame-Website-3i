@@ -26,7 +26,6 @@ async function sendDiscordWebhook({ action }: {action: string}) {
   return res.ok
 }
 
-
 export default function HomePage() {
   return (
     <div>
@@ -42,16 +41,13 @@ export default function HomePage() {
               className="inline-flex items-center space-x-2 background-transparent text-black px-4 py-2 mb-8 rounded-full border border-neutral-200 hover:bg-neutral-50 transition-colors"
             >
               <Sparkles className="w-4 h-4 text-accent-500" />
-              <span className="text-sm font-small text-muted-foreground">
+              <span className="sm:text-[11px] text-[10px] font-small text-muted-foreground">
                 Trusted by writers, researchers, and lifelong learners.
               </span>
             </motion.div>
-            {/* <div className="mt-4">
-              <Badge variant="secondary">{"Trusted by writers, researchers, and lifelong learners."}</Badge>
-            </div> */}
             <h1 className="text-4xl/tight font-semibold tracking-tight md:text-5xl">From book to brilliant idea</h1>
             <p className="mt-4 text-lg text-muted-foreground">
-              Tools and courses that turn what you read into reusable ideas — and reusable ideas into finished content.
+              Tools and courses that help you read more and actually remember what you read.
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <Button asChild>
@@ -69,11 +65,9 @@ export default function HomePage() {
             <img
               src="/readwrite.png?height=420&width=600"
               alt="Diagram of the Read → Record → Write workflow"
-              // className="w-full rounded-lg border object-cover grayscale contrast-125"
               height={420}
               width={600}
             />
-            {/* <PrimaryChip className="absolute bottom-3 right-3" size="md" /> */}
           </div>
         </div>
       </section>
