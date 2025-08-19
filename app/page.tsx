@@ -119,13 +119,13 @@ export default function HomePage() {
           <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">The WorkFrame toolkit</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <ToolCard
-              title="Quickread"
+              title="🟨🟦🟥 Quickread"
               description="Pick your next book with confidence."
-              href="http://tangram.tools/quickread"
-              imageUrl="/placeholder.svg?height=160&width=320"
+              href="/products/quickread"
+              imageUrl="/quickread_icon.png?height=160&width=320"
             />
             <ToolCard
-              title="Zettelkasten"
+              title="🟨🟦🟥 Zettelkasten"
               description="Break any idea into angles, arguments, and questions."
               href="http://tangram.tools/z"
               imageUrl="/placeholder.svg?height=160&width=320"

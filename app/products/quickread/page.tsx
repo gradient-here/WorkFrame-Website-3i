@@ -1,7 +1,6 @@
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Check } from "lucide-react"
+import Link from "next/link"
 
 export const metadata = {
   title: "Quickread — Choose your next book with confidence",
@@ -11,88 +10,145 @@ export const metadata = {
 export default function QuickreadPage() {
   return (
     <div>
+      {/* Header */}
       <section className="border-b">
         <div className="mx-auto max-w-[1200px] px-4 md:px-6 py-14 md:py-20 grid gap-10 md:grid-cols-2 items-center">
           <div>
             <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">Decide What to Read Next in Seconds.</h1>
             <p className="mt-3 text-lg text-muted-foreground">
-              QuickRead by WorkFrame gives you instant summaries and key insights, making it fast and easy to find your next great read with confidence.
+              Too many books, too little time? QuickRead by WorkFrame helps busy professionals, students, and lifelong learners instantly grasp the core ideas of any book — so you can choose what’s worth your time and start reading with confidence.
             </p>
             <div className="mt-6">
               <Button asChild className="bg-indigo-600 hover:bg-indigo-700">
-                <Link href="https://buy.stripe.com/6oUdR873ad7R2GTc3rfrW00">Get Quickread</Link>
+                <Link href="https://buy.stripe.com/6oUdR873ad7R2GTc3rfrW00">👉 Get QuickRead</Link>
               </Button>
             </div>
           </div>
           <video
             className="w-full rounded-lg max-w-md mx-auto md:max-w-none md:w-2/3"
-            playsInline           // important for iOS
-            muted                 // required for autoplay
-            autoPlay              // will work only if muted + inline
+            playsInline
+            muted              
+            autoPlay        
             loop
-            preload="auto"        // optional: hint to load
-            poster="/workframe_quickread_poster.jpg" // optional: placeholder frame
+            preload="auto"
+            poster="/workframe_quickread_poster.png"
           >
             <source src="/workframe_quickread.mp4" type="video/mp4" />
-            {/* Optional second source for broader support */}
-            <source src="/workframe_quickread.webm" type="video/webm" />
           </video>
-
-          {/* <video
-            src="/workframe_quickread.mp4"
-            className="w-full rounded-lg max-w-md mx-auto md:max-w-none md:w-2/3"
-            autoPlay
-            loop
-            muted
-          /> */}
         </div>
       </section>
 
+      {/* Feature Callouts */}
       <section className="mx-auto max-w-[1200px] px-4 md:px-6 py-12">
         <h2 className="text-xl font-semibold">How it works</h2>
-        <div className="mt-6 grid gap-6 md:grid-cols-3">
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-medium">Tell us your goal and time window</h3>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-medium">Get a ranked shortlist with why‑this‑book rationale</h3>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-medium">Save to your reading queue + affiliate links</h3>
-            </CardContent>
-          </Card>
+        <div className="mt-6 grid gap-6 md:grid-cols-4">
+
+          <div className="md:col-span-1">
+            <div className="p-6 rounded-lg border">
+              <h3 className="font-semibold">1. Capture Any Book</h3>
+              <p className="mt-2 text-sm">Scan a cover or type in a title - physical or digital, QuickRead works with both.</p>
+            </div>
+          </div>
+
+          <div className="md:col-span-1">
+            <div className="p-6 rounded-lg border">
+              <h3 className="font-semibold">2. Core Insights in Seconds</h3>
+              <p className="mt-2 text-sm">Receive instant summaries with the book’s main topics and key ideas.</p>
+            </div>
+          </div>
+
+          <div className="md:col-span-1">
+            <div className="p-6 rounded-lg border">
+              <h3 className="font-semibold">3. Read With Confidence</h3>
+              <p className="mt-2 text-sm">Add books to your reading queue with clarity - no more guesswork or wasted time.</p>
+            </div>
+          </div>
+
+          <div className="md:col-span-1">
+            <div className="p-6 rounded-lg border">
+              <h3 className="font-semibold">4. Anytime, Anywhere</h3>
+              <p className="mt-2 text-sm">QuickRead runs inside of ChatGPT on both desktop and mobile.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why QuickRead? */}
+      <section className="mx-auto max-w-[1200px] px-4 md:px-6 py-12">
+        <div className="flex flex-col items-center mt-8 bg-[#F2F1F3] rounded-t-lg p-6">
+          <div className="mt-0 rounded-lg p-0 max-w-100">      
+            <img src="/QR_Instant_Summaries.png" alt="Quickread Icon" className="w-full rounded-xl" />
+          </div>
         </div>
 
-        <h2 className="mt-12 text-xl font-semibold">Features</h2>
-        <ul className="mt-4 grid gap-2 text-sm">
-          <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Goal‑based recommendations
+        <div className="mt-0 rounded-b-lg border p-6">
+          {/* <h3 className="font-semibold">QuickRead</h3> */}
+          <p className="text-2xl font-bold">Why QuickRead?</p>
+          <p className="mt-3 text-md text-muted-foreground">Everyone has a growing TBR pile - books you want to read but never get to. QuickRead helps you cut through the overwhelm and focus on what’s truly worth your time.</p>
+          {/* <p className="mt-4 text-sm text-muted-foreground">
+            With QuickRead, you can:
+          </p> */}
+          <ul className="mt-2 list-disc space-y-2 pl-6 text-left">
+            <li className="pl-0">Quickly see if a book deserves a spot on your list</li>
+            <li className="pl-0">Make confident decisions about what to read next</li>
+            <li className="pl-0">Clear out your TBR pile filtering out “someday” reads</li>
+            <li className="pl-0">Access summaries and insights anytime, anywhere</li>
+          </ul>
+          <p className="mt-12 text-lg italic">Stop letting your TBR pile hold you back. With QuickRead, you’ll spend less time choosing and more time reading what matters.</p>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="mx-auto max-w-[1200px] px-4 md:px-6 py-12">
+
+        <div className="flex flex-col items-center mt-8 bg-[#F2F1F3] rounded-t-lg p-6">
+          <div className="mt-0 rounded-lg p-0 max-w-100">      
+            <img src="/QR_Search.png" alt="Quickread Icon" className="w-full rounded-xl" />
+          </div>
+        </div>
+
+        <div className="mt-0 rounded-b-lg border p-6">
+
+        {/* <h2 className="mt-12 text-xl font-semibold">Features</h2> */}
+        <p className="text-2xl font-bold">Features</p>
+
+        <ul className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4 text-sm">
+          <li className="flex items-start gap-2 md:flex-col md:items-center">
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Key ideas in seconds
           </li>
-          <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> “Why this book” reasoning
+          <li className="flex items-start gap-2 md:flex-col md:items-center">
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> One-time purchase (no subscription)
           </li>
-          <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Reading queue with reminders
+          <li className="flex items-start gap-2 md:flex-col md:items-center">
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Works with physical & digital books
           </li>
-          <li className="flex items-start gap-2">
-            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Export to notes (Z‑ready)
+          <li className="flex items-start gap-2 md:flex-col md:items-center">
+            <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Easy access via ChatGPT & mobile
           </li>
         </ul>
+        </div>
+      </section>
 
-        <div className="mt-12 rounded-lg border p-6">
+      {/* Pricing */}
+      <section className="mx-auto max-w-[1200px] px-4 md:px-6 py-12">
+        <div className="flex flex-col items-center mt-8 bg-[#F2F1F3] rounded-t-lg p-6">
+          <div className="mt-0 rounded-lg p-0 max-w-100">      
+            <img src="/one_time_purchase.png" alt="Quickread Icon" className="w-full rounded-xl" />
+          </div>
+        </div>
+
+        <div className="mt-0 rounded-b-lg border p-6">
           <h3 className="font-semibold">Pricing</h3>
+          <p className="text-2xl font-bold">Get QuickRead Today</p>
           <p className="mt-2 text-sm text-muted-foreground">
-            Included in Free plan; Pro unlocks saved queues and exports.
+            One-time purchase, no subscription required.
           </p>
-          <div className="mt-4">
+          <p className="mt-4 text-lg font-semibold">For the price of a book, never second-guess a read again</p>
+          <div className="mt-4 flex items-center justify-between">
             <Button asChild variant="outline">
-              <Link href="/account/onboarding">Start free</Link>
+              <Link href="https://buy.stripe.com/6oUdR873ad7R2GTc3rfrW00">Buy QuickRead</Link>
             </Button>
+            <p className="text-2xl font-bold">$12.00</p>
           </div>
         </div>
       </section>

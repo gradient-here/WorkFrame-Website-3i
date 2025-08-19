@@ -32,7 +32,7 @@ export function ToolCard({
             height={160}
             width={320}
           />
-          <PrimaryChip className="absolute bottom-2 right-2" size="sm" />
+          {/* <PrimaryChip className="absolute bottom-2 right-2" size="sm" /> */}
         </div>
         <p className="mb-3 text-sm text-muted-foreground">{description}</p>
         <Link href={href} className="inline-flex items-center text-sm font-medium underline">
