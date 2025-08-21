@@ -3,16 +3,17 @@ import type { Metadata } from "next"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 import "./globals.css"
+import { PostHogProvider } from "@/components/PostHogProvider"
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://workframe.example.com"),
   title: "WorkFrame — From book to brilliant idea",
   description:
-    "WorkFrame helps creators and knowledge workers turn reading into ideas, and ideas into publishable work. Tools, courses, and community for reading, note‑making, and content creation.",
+    "WorkFrame helps creators and knowledge workers turn reading into ideas, and ideas into publishable work. Tools, courses, and community for reading, note-making, and content creation.",
   openGraph: {
     title: "WorkFrame — From book to brilliant idea",
     description:
-      "WorkFrame helps creators and knowledge workers turn reading into ideas, and ideas into publishable work. Tools, courses, and community for reading, note‑making, and content creation.",
+      "WorkFrame helps creators and knowledge workers turn reading into ideas, and ideas into publishable work. Tools, courses, and community for reading, note-making, and content creation.",
     images: [{ url: "/og.png", width: 1200, height: 630 }],
   },
   twitter: {
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
       "WorkFrame helps creators and knowledge workers turn reading into ideas, and ideas into publishable work.",
     images: ["/og.png"],
   },
-    generator: 'v0.dev'
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -43,9 +44,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="antialiased">
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
+        <PostHogProvider>
+          <SiteHeader />
+          <main>{children}</main>
+          <SiteFooter />
+        </PostHogProvider>
       </body>
     </html>
   )
