@@ -31,14 +31,21 @@ export default function CommunityPage() {
           <CardContent className="pt-6">
             <h3 className="font-medium">7‑Day Reading & Recording Challenge</h3>
             <p className="mt-2 text-sm text-muted-foreground">Daily prompts; share progress; certificate.</p>
-            <Button onClick={() => sendDiscordWebhook({ action: "Reading Challenge" })} className="mt-4 bg-indigo-600 hover:bg-indigo-700">Join the challenge</Button>
+            <Button onClick={() => {
+              sendDiscordWebhook({ action: "Reading Challenge"});
+              window.location.href = "/account/onboarding";
+            }}
+            className="mt-4 bg-indigo-600 hover:bg-indigo-700">Join the challenge</Button>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="pt-6">
             <h3 className="font-medium">Live Workshops</h3>
             <p className="mt-2 text-sm text-muted-foreground">Monthly, 60 minutes; Q&A and live demos.</p>
-            <Button onClick={() => sendDiscordWebhook({ action: "Workshop" })} variant="outline" className="mt-4 bg-transparent">
+            <Button onClick={() => {
+              sendDiscordWebhook({ action: "Workshop"});
+              window.location.href = "/account/onboarding";
+            }} variant="outline" className="mt-4 bg-transparent">
               Reserve a seat
             </Button>
           </CardContent>
@@ -47,7 +54,10 @@ export default function CommunityPage() {
           <CardContent className="pt-6">
             <h3 className="font-medium">Beta Program</h3>
             <p className="mt-2 text-sm text-muted-foreground">Early access to new tools in exchange for feedback.</p>
-            <Button onClick={() => sendDiscordWebhook({ action: "Beta Program" })} variant="outline" className="mt-4 bg-transparent">
+            <Button onClick={() => {
+              sendDiscordWebhook({ action: "Beta Program"});
+              window.location.href = "/account/onboarding";
+            }} variant="outline" className="mt-4 bg-transparent">
               Apply to beta
             </Button>
           </CardContent>
