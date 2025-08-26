@@ -74,7 +74,10 @@ export default function ResourcesClient() {
         <TabsContent value="videos" className="mt-6">
           <div className="grid gap-6 md:grid-cols-3">
             <Card>
-              <CardContent onClick={() => sendDiscordWebhook({ action: "Quickread demo" })} className="pt-6">
+              <CardContent onClick={() => {
+                sendDiscordWebhook({ action: "Quickread demo" });
+                window.location.href = "/products/quickread";
+              }} className="pt-6">
                 <h3 className="font-medium">Quickread demo</h3>
                 <p className="mt-2 text-sm text-muted-foreground">2‑minute pick‑the‑book tour.</p>
               </CardContent>
