@@ -11,7 +11,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
       ui_host: "https://us.posthog.com",
       defaults: '2025-05-24',
       capture_exceptions: true,
-      debug: process.env.NODE_ENV === "development",
+      debug: process.env.NEXT_PUBLIC_NODE_ENV === "development",
     })
   }, [])
 

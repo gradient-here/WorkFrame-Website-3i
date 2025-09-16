@@ -127,8 +127,8 @@ export default function HomePage() {
             <ToolCard
               title="🟨🟦🟥 Zettelkasten"
               description="Break any idea into angles, arguments, and questions."
-              href="http://tangram.tools/z"
-              imageUrl="/placeholder.svg?height=160&width=320"
+              href="/products/zettelkasten"
+              imageUrl="/Zettelkasten_icon.png?height=160&width=320"
             />
             {/* <ToolCard
               title="Topic Atomizer"
@@ -151,7 +151,7 @@ export default function HomePage() {
         <div>
           <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">One workflow, many outputs</h2>
           <p className="mt-3 text-muted-foreground">
-            Read → Record → Write. Your notes become a Zettelkasten that feeds articles, videos, talks, and more.
+            Read → Record → Write. Your notes become the knowledge base that feeds articles, videos, talks, and more.
           </p>
           <div className="mt-6">
             <Button asChild variant="outline">

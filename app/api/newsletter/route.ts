@@ -18,7 +18,7 @@ export async function POST(req: Request) {
   // return NextResponse.json({ ok: true })
     // const { content } = await req.json()
 
-    const webhookUrl = process.env.DISCORD_WEBHOOK_URL
+    const webhookUrl = process.env.NEXT_PUBLIC_DISCORD_WEBHOOK_URL
     if (!webhookUrl) {
       return NextResponse.json({ error: "Webhook URL not configured" }, { status: 500 })
     }
