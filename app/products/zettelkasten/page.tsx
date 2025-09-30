@@ -222,7 +222,7 @@ export default function ZettelPage() {
                 "Finally took my book club notes seriously after years of relying on Apple Notes."
               </blockquote>
               <footer className="mt-4 text-sm font-medium">
-                — Real Estate Agent, New York
+                — Real Estate Agent, North Carolina
               </footer>
             </CardContent>
           </Card>

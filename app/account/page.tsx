@@ -1,6 +1,9 @@
 "use client"
 
 import { useState } from "react"
+
+// Prevent static generation for this page
+export const dynamic = 'force-dynamic'
 import { useFirebaseAuth } from "@/hooks/useFirebaseAuth"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
