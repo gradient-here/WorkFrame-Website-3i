@@ -14,8 +14,9 @@ export default function QuickreadPage() {
       <section className="border-b">
         <div className="mx-auto max-w-[1200px] px-4 md:px-6 py-14 md:py-20 grid gap-10 md:grid-cols-2 items-center">
           <div>
-            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">Decide What to Read Next in Seconds.</h1>
-            <p className="mt-3 text-lg text-muted-foreground">
+            <span className="inline-block bg-[#F2F1F3] text-sm text-muted-foreground rounded-full px-3 py-1">QuickRead by WorkFrame</span>
+            <h1 className="mt-4 text-4xl md:text-5xl tracking-tight leading-tight">Decide What to Read Next in Seconds.</h1>
+            <p className="mt-6 text-lg text-muted-foreground">
               Too many books, too little time? QuickRead by WorkFrame helps busy professionals, students, and lifelong learners instantly grasp the core ideas of any book — so you can choose what’s worth your time and start reading with confidence.
             </p>
             <div className="mt-6">

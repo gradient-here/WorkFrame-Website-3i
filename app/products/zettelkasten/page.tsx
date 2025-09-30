@@ -1,157 +1,290 @@
-
+"use client"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
-import { Check } from "lucide-react"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { Check, Star, Users, TrendingUp, Heart, FileText, Zap, BookOpen, Link2, Target, Database, BarChart3, Home, GitBranch, RefreshCw } from "lucide-react"
 
 function classNames(...classes: (string | boolean | undefined)[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export const metadata = {
-  title: "Zettelkasten — Build Your Personal Knowledge Graph",
-  description: "Capture, connect, and grow your ideas with Zettelkasten by WorkFrame."
+async function sendDiscordWebhook({ action }: {action: string}) {
+  const content = `Product Engagement!\action: ${action}`
+  const res = await fetch("/api/discord-webhook", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content }),
+  })
+  return res.ok
 }
+
+// export const metadata = {
+//   title: "Zettelkasten — Never lose a brilliant idea again",
+//   description: "Transform scattered thoughts into connected insights. Zettelkasten helps you capture and grow your ideas over time."
+// }
 
 export default function ZettelPage() {
   return (
     <div>
       {/* Header */}
       <section className="border-b">
-        <div className="mx-auto max-w-[1200px] px-4 md:px-6 py-14 md:py-20 flex flex-col items-center text-center">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Build Your Personal Knowledge Graph</h1>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            Too many scattered notes? Zettelkasten by WorkFrame helps knowledge workers, researchers, and lifelong learners capture ideas as they happen — and connect them into a network of insight you can build on forever.
-          </p>
-          <div className="mt-8 flex justify-center">
-            <Button asChild className="bg-indigo-600 hover:bg-indigo-700 text-lg px-8 py-4">
-              <Link href="/account/onboarding">Get Zettelkasten</Link>
-            </Button>
+        <div className="mx-auto max-w-[1200px] px-4 md:px-6 py-14 md:py-20 grid gap-8 md:grid-cols-2 items-center">
+          {/* Left: copy */}
+          <div className="text-left">
+            <span className="inline-block bg-[#F2F1F3] text-sm text-muted-foreground rounded-full px-3 py-1">Zettelkasten Toolbox</span>
+            <h1 className="mt-4 text-4xl md:text-5xl font-bold tracking-tight leading-tight">Build a durable knowledge graph in Notion</h1>
+            <p className="mt-4 text-xl text-muted-foreground font-medium">
+              A Notion template that turns scattered highlights into a connected knowledge graph.
+            </p>
+            <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
+              Stop forgetting what you read and start connecting your ideas. This template makes Notes, Topics, and Sources first-class citizens.
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Button className="bg-indigo-600 hover:bg-indigo-700 text-lg px-8 py-4"> 
+                <a href="https://buy.stripe.com/aFa14m87e3xhdlx3wVfrW01" target="_blank" rel="noopener noreferrer">Get the Template</a>
+              </Button>
+              <Button variant="outline" asChild>
+                <div onClick={() => sendDiscordWebhook({action: "Zettelkasten Learn More"})}>Learn More</div>
+              </Button>
+            </div>
           </div>
-          <div className="mt-10 flex justify-center">
-            {/* Device mockup image placeholder */}
-            <img
-              src="/placeholder.svg?height=360&width=520"
-              alt="Zettelkasten device mockup"
-              className="w-full max-w-md rounded-lg border shadow"
-              height={360}
-              width={520}
-            />
+
+          {/* Right: mockup */}
+          <div className="flex justify-center md:justify-end">
+            <div className="w-full max-w-[520px] rounded-lg overflow-hidden">
+              <img
+                src="/zettelkasten-hero.png"
+                alt="Zettelkasten device mockup"
+                className="w-full h-auto block object-cover"
+                height={360}
+                width={520}
+              />
+            </div>
           </div>
         </div>
       </section>
       
-      {/* How It Works */}
-      <section className="mx-auto max-w-[1200px] px-4 md:px-6 py-12">
-        <h2 className="text-2xl font-bold">How it works</h2>
-        <div className="mt-6">
-          <Tabs defaultValue="notes">
-            <TabsList>
-              <TabsTrigger value="notes">Notes</TabsTrigger>
-              <TabsTrigger value="topics">Topics</TabsTrigger>
-              <TabsTrigger value="sources">Sources</TabsTrigger>
-            </TabsList>
-            <TabsContent value="notes">
-              <div className="lg:flex lg:items-center lg:justify-between lg:space-x-6 px-6 py-4 rounded-lg border">
-                <div className="lg:w-1/2">
-                  <h3 className="font-semibold text-lg">Standardize your notes</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Save notes to your Zettelkasten tagging them to build your knowledge graph.
-                  </p>
-                </div>
-                <div className="lg:w-1/2">
-                  <img
-                    src="/placeholder.svg?height=160&width=320"
-                    alt="Note capture visual callout"
-                    className="w-full rounded-lg border"
-                  />
+      {/* Features Section */}
+      <section className="mx-auto max-w-[1200px] px-4 md:px-6 py-20">
+        <div className="text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">Turn reading into a connected knowledge system</h2>
+          <p className="mt-3 text-muted-foreground">Every feature helps you capture cleanly, recall quickly, and see connections you'd otherwise miss.</p>
+        </div>
+
+        <div className="mt-16 grid gap-12 md:grid-cols-3">
+          {/* Capture */}
+          <div className="space-y-8">
+            <div className="text-center">
+              <h3 className="text-xl font-semibold">📝 Capture faster</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Input systems that work</p>
+            </div>
+            
+            <div className="space-y-6">
+              <div className="flex gap-3">
+                <Zap className="h-5 w-5 text-indigo-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-medium">Fast capture, fast recall</h4>
+                  <p className="text-sm text-muted-foreground">“This Week’s Notes” surfaces fresh ideas when you need them.</p>
                 </div>
               </div>
-            </TabsContent>
-            <TabsContent value="topics">
-              <div className="p-6 rounded-lg border">
-                <h3 className="font-semibold">Organize your ideas around topics</h3>
-                <p className="mt-2 text-sm">Create custom topics to group related ideas. <span className='text-muted-foreground block'>So you can see connections others miss.</span></p>
+              
+              <div className="flex gap-3">
+                <Target className="h-5 w-5 text-indigo-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-medium">Ready-to-use taxonomy</h4>
+                  <p className="text-sm text-muted-foreground">Tag notes as Definition, Quote, Framework, or Strategy for easier filtering.</p>
+                </div>
               </div>
-            </TabsContent>
-            <TabsContent value="sources">
-              <div className="p-6 rounded-lg border">
-                <h3 className="font-semibold">Track your sources</h3>
-                <p className="mt-2 text-sm">Save notes with references to sources like articles, books, and podcasts. <span className='text-muted-foreground block'>So you can credit the original ideas.</span></p>
+              
+              <div className="flex gap-3">
+                <BookOpen className="h-5 w-5 text-indigo-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-medium">Source intelligence</h4>
+                  <p className="text-sm text-muted-foreground">Track books, podcasts, newsletters with clean citations and URLs.</p>
+                </div>
               </div>
-            </TabsContent>
-          </Tabs>
+            </div>
+          </div>
+
+          {/* Connect */}
+          <div className="space-y-8">
+            <div className="text-center">
+              <h3 className="text-xl font-semibold">🔗 See connections</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Ideas that talk to each other</p>
+            </div>
+            
+            <div className="space-y-6">
+              <div className="flex gap-3">
+                <Database className="h-5 w-5 text-indigo-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-medium">Three-core-database system</h4>
+                  <p className="text-sm text-muted-foreground">Notes, Topics, and Sources auto-link for context-rich knowledge.</p>
+                </div>
+              </div>
+              
+              <div className="flex gap-3">
+                <GitBranch className="h-5 w-5 text-indigo-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-medium">Bi-directional relationships</h4>
+                  <p className="text-sm text-muted-foreground">Ideas flow naturally between Notes ↔ Topics and Notes ↔ Sources.</p>
+                </div>
+              </div>
+              
+              <div className="flex gap-3">
+                <FileText className="h-5 w-5 text-indigo-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-medium">Idea pipeline</h4>
+                  <p className="text-sm text-muted-foreground">Turn raw highlights into “Topic Ideas” that evolve into insights.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Curate */}
+          <div className="space-y-8">
+            <div className="text-center">
+              <h3 className="text-xl font-semibold">✨ Curate smarter</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Build knowledge that compounds</p>
+            </div>
+            
+            <div className="space-y-6">
+              <div className="flex gap-3">
+                <Target className="h-5 w-5 text-indigo-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-medium">Topics gallery</h4>
+                  <p className="text-sm text-muted-foreground">Refine big-picture concepts and themes over time.</p>
+                </div>
+              </div>
+              
+              <div className="flex gap-3">
+                <BarChart3 className="h-5 w-5 text-indigo-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-medium">Knowledge analytics</h4>
+                  <p className="text-sm text-muted-foreground">See where your research is deepest with rollups per Topic and Source.</p>
+                </div>
+              </div>
+              
+              <div className="flex gap-3">
+                <Home className="h-5 w-5 text-indigo-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="font-medium">Clean home hub</h4>
+                  <p className="text-sm text-muted-foreground">Simple dashboard keeps everything one click away.</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Why Zettelkasten? */}
-      {/* <section className="mx-auto max-w-[1200px] px-4 md:px-6 py-12">
-        <div className="flex flex-col items-center mt-8 bg-[#F2F1F3] rounded-t-lg p-6">
-          <div className="mt-0 rounded-lg p-0 max-w-100">      
-            <img src="/placeholder.svg?height=180&width=320" alt="Knowledge graph visual callout" className="w-full rounded-xl" />
+      {/* Experience Section */}
+      <section className="bg-muted/30 py-20">
+        <div className="mx-auto max-w-[1200px] px-4 md:px-6">
+          <div className="text-center">
+            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">Why I built this</h2>
+            <p className="mt-3 text-muted-foreground">From scattered notes to connected insights</p>
           </div>
-        </div>
-        <div className="mt-0 rounded-b-lg border p-6">
-          <p className="text-2xl font-bold">Why Zettelkasten?</p>
-          <p className="mt-3 text-md text-muted-foreground">Your mind is full of ideas — but traditional notes bury them in folders you’ll never open again. Zettelkasten helps you surface, link, and grow your thinking over time.</p>
-          <ul className="mt-2 list-disc space-y-2 pl-6 text-left">
-            <li className="pl-0">Capture fleeting thoughts before they vanish</li>
-            <li className="pl-0">Connect notes with related concepts, people, and topics</li>
-            <li className="pl-0">Discover new insights from patterns across your ideas</li>
-            <li className="pl-0">Build a searchable knowledge graph you’ll actually use</li>
-          </ul>
-          <p className="mt-12 text-lg italic text-center">Stop losing ideas to chaos. With Zettelkasten, your notes become knowledge.</p>
-        </div>
-      </section> */}
-
-      {/* Features */}
-      <section className="mx-auto max-w-[1200px] px-4 md:px-6 py-12">
-        <div className="flex flex-col items-center mt-8 bg-[#F2F1F3] rounded-t-lg p-6">
-          <div className="mt-0 rounded-lg p-0 max-w-100">      
-            <img src="/placeholder.svg?height=120&width=120" alt="Feature visual 1" className="w-full rounded-xl" />
-          </div>
-        </div>
-        <div className="mt-0 rounded-b-lg border p-6">
-          <p className="text-2xl font-bold">Features</p>
-          <ul className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4 text-sm">
-            <li className="flex items-start gap-2 md:flex-col md:items-center">
-              <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Linked, contextual notes
-            </li>
-            <li className="flex items-start gap-2 md:flex-col md:items-center">
-              <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Instant capture & tagging
-            </li>
-            <li className="flex items-start gap-2 md:flex-col md:items-center">
-              <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Searchable knowledge graph
-            </li>
-            <li className="flex items-start gap-2 md:flex-col md:items-center">
-              <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> Works across devices & platforms
-            </li>
-            {/* <li className="flex items-start gap-2 md:flex-col md:items-center">
-              <Check className="mt-0.5 h-4 w-4 text-indigo-600" /> One-time purchase (no subscription)
-            </li> */}
-          </ul>
+          
+          <Card className="mt-10 border-0 shadow-lg">
+            <CardContent className="p-8">
+              <blockquote className="text-lg leading-8 text-muted-foreground italic">
+                "I created this template for myself to make reading and note-taking more durable. By tagging quotes and ideas as I read books or encounter content online, I've been able to build an incredibly valuable resource of connected thoughts and sources. Following the simple input process, I can now put ideas into conversation with one another in ways that I never could when everything was scattered."
+              </blockquote>
+              <footer className="mt-6">
+                <div className="text-sm font-medium text-foreground">— Founder, WorkFrame</div>
+              </footer>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
-      {/* Pricing */}
-      <section className="mx-auto max-w-[1200px] px-4 md:px-6 py-12">
-        <div className="flex flex-col items-center mt-8 bg-[#F2F1F3] rounded-t-lg p-6">
-          <div className="mt-0 rounded-lg p-0 max-w-100">      
-            <img src="/one_time_purchase.png" alt="Zettelkasten Icon" className="w-full rounded-xl" />
+      {/* Early Feedback Section */}
+      <section className="mx-auto max-w-[1200px] px-4 md:px-6 py-20">
+        <div className="text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">Trusted by early users</h2>
+        </div>
+        
+        <div className="mt-10 grid gap-8 md:grid-cols-2">
+          <Card className="border-l-4 border-l-indigo-600">
+            <CardContent className="p-6">
+              <blockquote className="text-muted-foreground">
+                "This helped me organize my PhD reading in ways I never could before."
+              </blockquote>
+              <footer className="mt-4 text-sm font-medium">
+                — Columbia PhD Student
+              </footer>
+            </CardContent>
+          </Card>
+          
+          <Card className="border-l-4 border-l-indigo-600">
+            <CardContent className="p-6">
+              <blockquote className="text-muted-foreground">
+                "Finally took my book club notes seriously after years of relying on Apple Notes."
+              </blockquote>
+              <footer className="mt-4 text-sm font-medium">
+                — Real Estate Agent, New York
+              </footer>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Works with existing tools */}
+      <section className="bg-muted/20 py-20">
+        <div className="mx-auto max-w-[1200px] px-4 md:px-6">
+          <div className="text-center">
+            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">Works with your existing tools</h2>
+            <p className="mt-3 text-muted-foreground">Import and export seamlessly across your favorite apps</p>
+          </div>
+          
+          <div className="mt-10 flex justify-center items-center gap-8 flex-wrap">
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <FileText className="h-5 w-5" />
+              Notion
+            </div>
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <FileText className="h-5 w-5" />
+              Readwise
+            </div>
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <FileText className="h-5 w-5" />
+              Obsidian
+            </div>
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <FileText className="h-5 w-5" />
+              Logseq
+            </div>
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <FileText className="h-5 w-5" />
+              Roam
+            </div>
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <FileText className="h-5 w-5" />
+              Kindle
+            </div>
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <FileText className="h-5 w-5" />
+              Apple Notes
+            </div>
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <FileText className="h-5 w-5" />
+              Evernote
+            </div>
           </div>
         </div>
-        <div className="mt-0 rounded-b-lg border p-6">
-          <h3 className="font-semibold">Pricing</h3>
-          <p className="text-2xl font-bold">Get Zettelkasten Today</p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            One-time purchase, no subscription required.
+      </section>
+
+      {/* Final CTA */}
+      <section className="bg-gradient-to-r from-indigo-600 to-indigo-700 py-20">
+        <div className="mx-auto max-w-[800px] px-4 md:px-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-white">Stop losing ideas. Build a durable knowledge system today.</h2>
+          <p className="mt-4 text-lg text-indigo-100">
+            Transform scattered highlights and thoughts into connected insights you can build on for years.
           </p>
-          <p className="mt-4 text-lg font-semibold">For the price of a notebook, build a second brain you’ll never lose</p>
-          <div className="mt-4 flex items-center justify-between">
-            <Button asChild variant="outline">
-              <Link href="/account/onboarding">Buy Zettelkasten</Link>
+          <div className="mt-8">
+            <Button size="lg" className="bg-white text-indigo-600 hover:bg-gray-50 font-semibold px-8">
+              <a href="https://buy.stripe.com/aFa14m87e3xhdlx3wVfrW01" target="_blank" rel="noopener noreferrer">Get the Template</a>
             </Button>
-            <p className="text-2xl font-bold">$59.00</p>
           </div>
         </div>
       </section>
