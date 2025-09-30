@@ -16,12 +16,12 @@ export function SiteFooter() {
             <h4 className="text-sm font-semibold mb-3">Products</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link className="hover:underline" href="http://tangram.tools/quickread">
+                <Link className="hover:underline" href="/products/quickread">
                   Quickread
                 </Link>
               </li>
               <li>
-                <Link className="hover:underline" href="http://tangram.tools/z">
+                <Link className="hover:underline" href="/products/zettelkasten">
                   Zettelkasten
                 </Link>
               </li>
