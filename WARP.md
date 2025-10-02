@@ -22,6 +22,16 @@ pnpm start
 pnpm lint
 ```
 
+### Alternative Package Managers
+This project uses pnpm (confirmed by pnpm-lock.yaml), but npm/yarn work too:
+```bash
+# Using npm
+npm install && npm run dev
+
+# Using yarn  
+yarn install && yarn dev
+```
+
 ### Testing & Quality
 Currently no test framework is configured. Consider adding Vitest or Jest for component testing.
 
@@ -34,63 +44,61 @@ This is a **Next.js 15 App Router** project with TypeScript, built as a marketin
 
 **Frontend Stack:**
 - **Next.js 15** with App Router (RSC-enabled)
-- **TypeScript** with strict configuration
-- **Tailwind CSS v4** with custom design system
+- **TypeScript** with strict configuration (ES6 target)
+- **Tailwind CSS v4** with PostCSS integration
 - **shadcn/ui** component library (New York variant)
 - **Framer Motion** for animations
 - **Lucide React** for icons
 
-**Authentication & Analytics:**
-- **Firebase Auth** for user authentication (configured but minimal implementation)
-- **PostHog** for analytics with custom ingest endpoints (`/ingest/*`)
-- Analytics events tracked via Discord webhooks for product engagement
+**Backend & Services:**
+- **Firebase Auth** for user authentication 
+- **PostHog** for analytics with proxy routing (`/ingest/*`)
+- **Discord webhooks** for contact form submissions and engagement tracking
+- **Stripe** integration available (configured in dependencies)
 
 **Design System:**
-- Custom CSS variables using OKLCH color space
-- Outfit font family from Google Fonts
-- Neutral base color with comprehensive theme support
-- Component aliases configured for clean imports (`@/components`, `@/lib`, etc.)
+- CSS custom properties with neutral base colors
+- Component aliases: `@/components`, `@/lib`, `@/hooks`, `@/ui`
+- shadcn/ui configured with CSS variables and RSC support
 
 ### Component Architecture
 
-**Layout Structure:**
-- Root layout includes PostHog provider, site header, and footer
-- Persistent header with sticky positioning and backdrop blur
-- Mobile-responsive navigation with Sheet component
+**App Router Structure:**
+- Main marketing page: `app/page.tsx`
+- Product pages: `app/products/[tool]/page.tsx` (chat, zettelkasten, quickread, etc.)
+- Account section: `app/account/` (settings, notes, with layout)
+- Course pages: `app/courses/` 
+- Legal pages: `app/privacy/`, `app/terms/`, `app/cookies/`
+- API routes: `app/api/` (contact, discord-webhook, stripe, newsletter)
 
-**Page Components:**
-- `app/page.tsx` - Main marketing page with hero, features, tools overview, courses, and testimonials
-- Client-side interactivity for engagement tracking
-
-**Reusable Components:**
+**Component Architecture:**
 - `components/ui/` - shadcn/ui base components
-- `components/` - Custom business components (ToolCard, CourseCard, Testimonial, etc.)
-- Consistent prop interfaces with TypeScript
+- `components/` - Business components (site-header, site-footer, tool-card, course-card)
+- `hooks/` - Custom hooks (useFirebaseAuth, use-toast)
+- `lib/` - Utilities (firebase, posthog, utils)
 
 **State Management:**
-- `hooks/useFirebaseAuth.ts` - Authentication state management
-- React Context via PostHog provider for analytics
-- Local state for UI interactions
+- Firebase Auth via `useFirebaseAuth` hook
+- PostHog analytics via provider pattern
+- Form state managed with react-hook-form + zod validation
 
 ### Configuration Files
 
-**Next.js Configuration:**
-- ESLint and TypeScript build errors ignored (typical for rapid prototyping)
-- Image optimization disabled
-- PostHog proxy rewrites configured for `/ingest/*` endpoints
+**Next.js Configuration (`next.config.mjs`):**
+- ESLint and TypeScript build errors ignored 
+- Image optimization disabled (`unoptimized: true`)
+- PostHog proxy rewrites for `/ingest/*` endpoints
 - Trailing slash redirects disabled for PostHog compatibility
 
-**Styling Configuration:**
-- `components.json` - shadcn/ui configuration with New York style
-- `app/globals.css` - CSS custom properties for design system
-- Uses CSS `@theme inline` for Tailwind integration
+**Build Configuration:**
+- `components.json` - shadcn/ui (New York style, RSC enabled)
+- `tsconfig.json` - Strict TypeScript, ES6 target, path aliases
+- `postcss.config.mjs` - Tailwind CSS v4 with PostCSS plugin
 
 ### Environment Variables Required
 
-Based on the code, ensure these environment variables are configured:
-
 ```bash
-# Firebase Auth
+# Firebase Auth (required - validation in lib/firebase.ts)
 NEXT_PUBLIC_FIREBASE_API_KEY=
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=
@@ -102,7 +110,13 @@ NEXT_PUBLIC_MEASUREMENT_ID=
 # PostHog Analytics
 NEXT_PUBLIC_POSTHOG_KEY=
 NEXT_PUBLIC_POSTHOG_HOST=
-NEXT_PUBLIC_NODE_ENV=
+
+# Discord Webhooks (for contact form)
+DISCORD_WEBHOOK_URL=
+
+# Optional: Stripe (configured in dependencies)
+STRIPE_SECRET_KEY=
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 ```
 
 ## Development Guidelines
@@ -124,29 +138,24 @@ NEXT_PUBLIC_NODE_ENV=
 - Maintain responsive design patterns (mobile-first with md: breakpoints)
 - Client components marked with "use client" directive when needed
 
-### Analytics Integration
-- PostHog automatically tracks page views and user interactions
-- Custom events can be tracked via the PostHog client
-- Discord webhook integration exists for specific product engagement events
+### Analytics & Integrations
+- **PostHog**: Configured with proxy routing, automatic page view tracking
+- **Discord Webhooks**: Contact form submissions routed to Discord
+- **Firebase Auth**: Full configuration with validation, minimal UI implementation
+- **Stripe**: Dependencies configured but implementation not complete
 
-### Authentication Flow
-- Firebase Auth is configured but minimally implemented
-- `useFirebaseAuth` hook provides auth state and methods
-- Auth state is managed at the layout level but not deeply integrated
 
-## Special Notes
+## Important Notes
 
 ### v0.dev Integration
-This project was generated using v0.dev and maintains synchronization with deployed chats. The README indicates that changes are automatically pushed from v0.dev to this repository.
+This project was generated using v0.dev and maintains automatic synchronization:
+- Changes deployed from v0.dev are automatically pushed to this repository  
+- Continue development at: https://v0.dev/chat/projects/P89IHjgIY4w
+- Vercel deployment: https://vercel.com/gradientheres-projects/v0-workframe-website-design
 
-### Deployment
-- Project is configured for Vercel deployment
-- PostHog analytics routing configured for production environment
-- Build configuration optimized for static site generation where possible
-
-### Missing Implementations
-- Test framework not configured
-- Error boundaries not implemented
-- Loading states minimal
-- Form validation using react-hook-form and zod is available but not extensively used
-- Stripe integration present in dependencies but not implemented
+### Development Considerations
+- No test framework configured (consider Vitest for component testing)
+- Build errors ignored in next.config.mjs for rapid prototyping
+- Firebase config has validation but hardcoded fallback values in comments
+- Form validation infrastructure ready (react-hook-form + zod)
+- Stripe integration prepared but not implemented
