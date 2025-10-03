@@ -45,7 +45,7 @@ export default function ZettelPage() {
                 <a href="https://buy.stripe.com/aFa14m87e3xhdlx3wVfrW01" target="_blank" rel="noopener noreferrer">Get the Template</a>
               </Button>
               <Button variant="outline" asChild>
-                <div onClick={() => sendDiscordWebhook({action: "Zettelkasten Learn More"})}>Learn More</div>
+                <div style={{cursor: "pointer"}} onClick={() => sendDiscordWebhook({action: "Zettelkasten Learn More"})}>Learn More</div>
               </Button>
             </div>
           </div>

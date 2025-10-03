@@ -1,15 +1,33 @@
+'use client';
+
 import { Button } from "@/components/ui/button"
 import { Check } from "lucide-react"
 import Link from "next/link"
-
-export const metadata = {
-  title: "Quickread — Choose your next book with confidence",
-  description: "Goal‑based book picks, rationales, and a reading queue that feeds your notes.",
-}
+import { useAttribution, useCheckoutTracking } from "@/hooks/useAttribution"
+import { useEffect } from "react"
+import Head from "next/head"
 
 export default function QuickreadPage() {
+  const { trackProductPageView, fromRedirect, hasAttribution } = useAttribution();
+  const { trackCheckoutStarted } = useCheckoutTracking();
+
+  // Track page view on component mount
+  useEffect(() => {
+    trackProductPageView('quickread');
+  }, [trackProductPageView]);
+
+  // Handle checkout button clicks
+  const handleCheckoutClick = (checkoutUrl: string) => {
+    trackCheckoutStarted('quickread', checkoutUrl, 1200, 'usd'); // $12.00 in cents
+  };
+
   return (
-    <div>
+    <>
+      <Head>
+        <title>Quickread — Choose your next book with confidence</title>
+        <meta name="description" content="Goal‑based book picks, rationales, and a reading queue that feeds your notes." />
+      </Head>
+      <div>
       {/* Header */}
       <section className="border-b">
         <div className="mx-auto max-w-[1200px] px-4 md:px-6 py-14 md:py-20 grid gap-10 md:grid-cols-2 items-center">
@@ -20,9 +38,16 @@ export default function QuickreadPage() {
               Too many books, too little time? QuickRead by WorkFrame helps busy professionals, students, and lifelong learners instantly grasp the core ideas of any book — so you can choose what’s worth your time and start reading with confidence.
             </p>
             <div className="mt-6">
-              <Button asChild className="bg-indigo-600 hover:bg-indigo-700">
+              <Button 
+                asChild 
+                className="bg-indigo-600 hover:bg-indigo-700"
+                onClick={() => handleCheckoutClick('https://buy.stripe.com/6oUdR873ad7R2GTc3rfrW00')}
+              >
                 <Link href="https://buy.stripe.com/6oUdR873ad7R2GTc3rfrW00">👉 Get QuickRead</Link>
               </Button>
+              {fromRedirect && (
+                <p className="mt-2 text-sm text-green-600">✨ Special link detected - your purchase will be tracked!</p>
+              )}
             </div>
           </div>
           <video
@@ -146,13 +171,18 @@ export default function QuickreadPage() {
           </p>
           <p className="mt-4 text-lg font-semibold">For the price of a book, never second-guess a read again</p>
           <div className="mt-4 flex items-center justify-between">
-            <Button asChild variant="outline">
+            <Button 
+              asChild 
+              variant="outline"
+              onClick={() => handleCheckoutClick('https://buy.stripe.com/6oUdR873ad7R2GTc3rfrW00')}
+            >
               <Link href="https://buy.stripe.com/6oUdR873ad7R2GTc3rfrW00">Buy QuickRead</Link>
             </Button>
             <p className="text-2xl font-bold">$12.00</p>
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   )
 }
