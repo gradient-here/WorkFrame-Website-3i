@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { Check, Star, Users, TrendingUp, Heart, FileText, Zap, BookOpen, Link2, Target, Database, BarChart3, Home, GitBranch, RefreshCw } from "lucide-react"
+import { useLandingPageAttribution } from "@/hooks/useLandingPageAttribution"
 
 function classNames(...classes: (string | boolean | undefined)[]) {
   return classes.filter(Boolean).join(' ')
@@ -24,6 +25,22 @@ async function sendDiscordWebhook({ action }: {action: string}) {
 // }
 
 export default function ZettelPage() {
+  const { handleBuyButtonClick } = useLandingPageAttribution();
+  
+  // Your Zettelkasten Stripe URL (update this to your actual URL)
+  const ZETTELKASTEN_STRIPE_URL = 'https://buy.stripe.com/aFa14m87e3xhdlx3wVfrW01';
+  
+  // Handle checkout button clicks
+  const handleCheckoutClick = () => {
+    const enhancedUrl = handleBuyButtonClick('zettelkasten', ZETTELKASTEN_STRIPE_URL);
+    
+    console.log('🔗 Original Stripe URL:', ZETTELKASTEN_STRIPE_URL);
+    console.log('✨ Enhanced with attribution:', enhancedUrl);
+    
+    // Open Stripe checkout
+    window.open(enhancedUrl, '_blank');
+  };
+
   return (
     <div>
       {/* Header */}
@@ -41,8 +58,14 @@ export default function ZettelPage() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Button className="bg-indigo-600 hover:bg-indigo-700 text-lg px-8 py-4"> 
-                <a href="https://buy.stripe.com/aFa14m87e3xhdlx3wVfrW01" target="_blank" rel="noopener noreferrer">Get the Template</a>
+              <Button 
+                className="bg-indigo-600 hover:bg-indigo-700 text-lg px-8 py-4"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleCheckoutClick();
+                }}
+              > 
+                Get the Template
               </Button>
               <Button variant="outline" asChild>
                 <div style={{cursor: "pointer"}} onClick={() => sendDiscordWebhook({action: "Zettelkasten Learn More"})}>Learn More</div>
@@ -282,8 +305,15 @@ export default function ZettelPage() {
             Transform scattered highlights and thoughts into connected insights you can build on for years.
           </p>
           <div className="mt-8">
-            <Button size="lg" className="bg-white text-indigo-600 hover:bg-gray-50 font-semibold px-8">
-              <a href="https://buy.stripe.com/aFa14m87e3xhdlx3wVfrW01" target="_blank" rel="noopener noreferrer">Get the Template</a>
+            <Button 
+              size="lg" 
+              className="bg-white text-indigo-600 hover:bg-gray-50 font-semibold px-8"
+              onClick={(e) => {
+                e.preventDefault();
+                handleCheckoutClick();
+              }}
+            >
+              Get the Template
             </Button>
           </div>
         </div>

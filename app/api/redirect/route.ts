@@ -24,101 +24,6 @@ import {
 import type { RedirectResponse, ValidationError } from '@/lib/analytics-types';
 
 /**
- * GET /api/redirect
- * 
- * Processes redirect requests with analytics tracking
- */
-export async function GET(request: NextRequest): Promise<NextResponse> {
-  try {
-    // Extract query parameters
-    const url = new URL(request.url);
-    const productSlug = url.searchParams.get('p');
-    const userId = url.searchParams.get('u');
-    
-    // Validate required parameters
-    const validationErrors = validateRequest(productSlug, userId);
-    if (validationErrors.length > 0) {
-      console.warn('Redirect validation failed:', validationErrors);
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Invalid request parameters',
-          details: validationErrors
-        } as RedirectResponse,
-        { status: 400 }
-      );
-    }
-    
-    // Get product configuration
-    const product = getProductBySlug(productSlug!);
-    if (!product) {
-      console.warn('Unknown product slug:', productSlug);
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Unknown product'
-        } as RedirectResponse,
-        { status: 400 }
-      );
-    }
-    
-    // Generate request ID and extract metadata
-    const requestId = generateRequestId();
-    const metadata = extractRequestMetadata(request);
-    
-    // Create attribution data
-    const attributionData = createAttributionData(
-      productSlug!,
-      userId || undefined,
-      requestId
-    );
-    
-    // Build destination URL (handle both internal and external URLs)
-    const destinationUrl = product.url.startsWith('http') 
-      ? product.url // External URL - use as-is
-      : `${new URL(request.url).origin}${product.url}`; // Internal URL - add origin
-    
-    // Log analytics event (fire-and-forget)
-    const redirectEvent = createRedirectEvent(
-      productSlug!,
-      destinationUrl,
-      requestId,
-      metadata,
-      userId || undefined
-    );
-    
-    logAnalyticsEventAsync(redirectEvent);
-    
-    // Create response with 302 redirect
-    const response = NextResponse.redirect(destinationUrl, {
-      status: 302,
-      headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0'
-      }
-    });
-    
-    // Set attribution cookie
-    const cookieHeader = createAttributionCookieHeader(attributionData);
-    response.headers.set('Set-Cookie', cookieHeader);
-    
-    return response;
-    
-  } catch (error) {
-    console.error('Redirect endpoint error:', error);
-    
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'Internal server error'
-      } as RedirectResponse,
-      { status: 500 }
-    );
-  }
-}
-
-/**
  * Validate request parameters
  */
 function validateRequest(
@@ -159,6 +64,104 @@ function validateRequest(
   
   return errors;
 }
+
+
+/**
+ * GET /api/redirect
+ * 
+ * Processes redirect requests with analytics tracking
+ */
+export async function GET(request: NextRequest): Promise<NextResponse> {
+  try {
+    // Extract query parameters
+    const url = new URL(request.url);
+    const productSlug = url.searchParams.get('p');
+    const checkoutID = url.searchParams.get('u');
+    
+    // Validate required parameters
+    const validationErrors = validateRequest(productSlug, checkoutID);
+    if (validationErrors.length > 0) {
+      console.warn('Redirect validation failed:', validationErrors);
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Invalid request parameters',
+          details: validationErrors
+        } as RedirectResponse,
+        { status: 400 }
+      );
+    }
+    
+    // Get product configuration
+    const product = getProductBySlug(productSlug!);
+    if (!product) {
+      console.warn('Unknown product slug:', productSlug);
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Unknown product'
+        } as RedirectResponse,
+        { status: 400 }
+      );
+    }
+    
+    // Generate request ID and extract metadata
+    // const requestId = generateRequestId();
+    const metadata = extractRequestMetadata(request);
+    
+    // Create attribution data
+    const attributionData = createAttributionData(
+      productSlug!,
+      checkoutID || undefined,
+      // requestId
+    );
+    
+    // Build destination URL (handle both internal and external URLs)
+    const destinationUrl = product.url.startsWith('http') 
+      ? product.url // External URL - use as-is
+      : `${new URL(request.url).origin}${product.url}`; // Internal URL - add origin
+    
+    // Log analytics event (fire-and-forget)
+    const redirectEvent = createRedirectEvent(
+      productSlug!,
+      destinationUrl,
+      "00000000-0000-0000-0000-000000000000", // Placeholder requestId
+      metadata,
+      checkoutID || undefined
+    );
+    // requestId,
+    
+    logAnalyticsEventAsync(redirectEvent);
+    
+    // Create response with 302 redirect
+    const response = NextResponse.redirect(destinationUrl, {
+      status: 302,
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
+    
+    // Set attribution cookie
+    const cookieHeader = createAttributionCookieHeader(attributionData);
+    response.headers.set('Set-Cookie', cookieHeader);
+    
+    return response;
+    
+  } catch (error) {
+    console.error('Redirect endpoint error:', error);
+    
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Internal server error'
+      } as RedirectResponse,
+      { status: 500 }
+    );
+  }
+}
+
 
 /**
  * Handle unsupported HTTP methods

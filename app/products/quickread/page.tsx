@@ -2,23 +2,23 @@
 
 import { Button } from "@/components/ui/button"
 import { Check } from "lucide-react"
-import Link from "next/link"
-import { useAttribution, useCheckoutTracking } from "@/hooks/useAttribution"
-import { useEffect } from "react"
+import { useLandingPageAttribution } from "@/hooks/useLandingPageAttribution"
 import Head from "next/head"
 
 export default function QuickreadPage() {
-  const { trackProductPageView, fromRedirect, hasAttribution } = useAttribution();
-  const { trackCheckoutStarted } = useCheckoutTracking();
+  const { handleBuyButtonClick } = useLandingPageAttribution();
 
-  // Track page view on component mount
-  useEffect(() => {
-    trackProductPageView('quickread');
-  }, [trackProductPageView]);
-
+  // Your actual Stripe checkout URL
+  const STRIPE_CHECKOUT_URL = 'https://buy.stripe.com/6oUdR873ad7R2GTc3rfrW00'; // Using your original QuickRead URL
+  
   // Handle checkout button clicks
-  const handleCheckoutClick = (checkoutUrl: string) => {
-    trackCheckoutStarted('quickread', checkoutUrl, 1200, 'usd'); // $12.00 in cents
+  const handleCheckoutClick = () => {
+    const enhancedUrl = handleBuyButtonClick('quickread', STRIPE_CHECKOUT_URL);
+    
+    console.log('🔗 Original Stripe URL:', STRIPE_CHECKOUT_URL);
+    console.log('✨ Enhanced with attribution:', enhancedUrl);
+    
+    return enhancedUrl;
   };
 
   return (
@@ -39,15 +39,15 @@ export default function QuickreadPage() {
             </p>
             <div className="mt-6">
               <Button 
-                asChild 
                 className="bg-indigo-600 hover:bg-indigo-700"
-                onClick={() => handleCheckoutClick('https://buy.stripe.com/6oUdR873ad7R2GTc3rfrW00')}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const enhancedUrl = handleCheckoutClick();
+                  window.open(enhancedUrl, '_blank');
+                }}
               >
-                <Link href="https://buy.stripe.com/6oUdR873ad7R2GTc3rfrW00">👉 Get QuickRead</Link>
+                👉 Get QuickRead
               </Button>
-              {fromRedirect && (
-                <p className="mt-2 text-sm text-green-600">✨ Special link detected - your purchase will be tracked!</p>
-              )}
             </div>
           </div>
           <video
@@ -172,11 +172,14 @@ export default function QuickreadPage() {
           <p className="mt-4 text-lg font-semibold">For the price of a book, never second-guess a read again</p>
           <div className="mt-4 flex items-center justify-between">
             <Button 
-              asChild 
               variant="outline"
-              onClick={() => handleCheckoutClick('https://buy.stripe.com/6oUdR873ad7R2GTc3rfrW00')}
+              onClick={(e) => {
+                e.preventDefault();
+                const enhancedUrl = handleCheckoutClick();
+                window.open(enhancedUrl, '_blank');
+              }}
             >
-              <Link href="https://buy.stripe.com/6oUdR873ad7R2GTc3rfrW00">Buy QuickRead</Link>
+              Buy QuickRead
             </Button>
             <p className="text-2xl font-bold">$12.00</p>
           </div>

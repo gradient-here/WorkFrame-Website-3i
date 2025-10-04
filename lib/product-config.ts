@@ -21,7 +21,7 @@ export const PRODUCT_MAPPING: Record<string, ProductConfig> = {
   },
   'zettelkasten': {
     slug: 'zettelkasten',
-    url: 'https://www.notion.so/Zettelkasten-26de70b7724b8088870acb39d8538f9e?duplicate=true&from=stripe',
+    url: 'https://www.notion.so/Zettelkasten-26de70b7724b8088870acb39d8538f9e?duplicate=true',
     name: 'Zettelkasten',
     description: 'Note-taking and knowledge management system'
   },

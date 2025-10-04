@@ -180,8 +180,40 @@ export function useCheckoutTracking() {
     }
   };
   
+  /**
+   * Enhance a Stripe Payment Link URL with attribution data
+   */
+  const enhanceStripeUrl = (baseStripeUrl: string): string => {
+    if (!attribution) {
+      return baseStripeUrl;
+    }
+    
+    try {
+      const url = new URL(baseStripeUrl);
+      
+      // Encode attribution data as client_reference_id
+      const parts = [
+        attribution.p,
+        attribution.u || 'anon',
+        attribution.rid,
+        Date.now().toString()
+      ];
+      
+      const clientRef = parts.join('_').substring(0, 200);
+      url.searchParams.set('client_reference_id', clientRef);
+      
+      console.log('Enhanced Stripe URL with client_reference_id:', clientRef);
+      return url.toString();
+      
+    } catch (error) {
+      console.error('Failed to enhance Stripe URL:', error);
+      return baseStripeUrl;
+    }
+  };
+  
   return {
     trackCheckoutStarted,
+    enhanceStripeUrl,
     attribution
   };
 }

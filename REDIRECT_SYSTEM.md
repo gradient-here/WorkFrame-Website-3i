@@ -4,10 +4,21 @@ This document describes the product redirect system implementation for tracking 
 
 ## System Overview
 
-The redirect system implements the following flow:
+The simplified attribution system implements the following flow:
 
+**Complete Purchase & Redirect Flow:**
 ```
-Marketing Link → /api/redirect?p=quickread&u=123 → External Product (ChatGPT/Notion) → Purchase Tracking
+Landing Page → Buy Button Click → Stripe Checkout → Purchase Success → Product Redirect
+```
+
+**Detailed Flow:**
+```
+1. User arrives on landing page (UTM tracking handled by analytics)
+2. User clicks buy button → Stripe URL enhanced with client_reference_id
+3. User completes Stripe checkout → client_reference_id stored in session
+4. Stripe redirects to /api/purchase-redirect?session_id=cs_xxx
+5. Server validates purchase & extracts product from client_reference_id
+6. User redirected to their purchased product (ChatGPT/Notion)
 ```
 
 **Product Destinations:**
@@ -21,9 +32,12 @@ Marketing Link → /api/redirect?p=quickread&u=123 → External Product (ChatGPT
 - `lib/analytics-types.ts` - TypeScript types for all analytics events
 - `lib/attribution-utils.ts` - Utility functions for attribution tracking and cookies
 - `lib/analytics-service.ts` - PostHog integration service
+- `lib/stripe-utils.ts` - Stripe integration utilities and checkout session creation
 
 ### API Endpoints
 - `app/api/redirect/route.ts` - Main redirect endpoint with validation and tracking
+- `app/api/purchase-redirect/route.ts` - Post-purchase redirect endpoint with session validation
+- `app/api/create-checkout/route.ts` - Creates Stripe checkout sessions with attribution
 - `app/api/stripe/webhook/route.ts` - Stripe webhook handler for purchase completion
 
 ### Client-Side Integration
@@ -94,6 +108,52 @@ Expected results:
 2. Click "Get QuickRead" or "Buy QuickRead" buttons
 3. Check browser console for `checkout_started` events
 
+### 7. Test Landing Page Attribution Flow
+
+#### Test Landing Page Demo
+1. Visit the demo landing page:
+```
+http://localhost:3000/landing-demo
+```
+
+2. Observe the session info that gets automatically generated
+3. Click a buy button and check the console - you should see:
+```
+🔒 Buy button clicked: {
+  product: 'quickread',
+  clientReferenceId: 'quickread_sess_1704067200000_abc123def_1704067300000',
+  enhancedUrl: 'https://buy.stripe.com/aFa14m87e3xhdlx3wVfrW01?client_reference_id=quickread_sess_...' 
+}
+```
+
+#### Test with UTM Parameters
+Visit with UTM params to see tracking:
+```
+http://localhost:3000/landing-demo?utm_source=google&utm_medium=cpc&utm_campaign=quickread
+```
+
+#### Test Post-Purchase Redirect
+Simulate a completed purchase:
+```
+http://localhost:3000/api/purchase-redirect?session_id=test-session-123
+```
+
+Expected result:
+- Mock session includes `client_reference_id`: `quickread_sess_1704067200000_abc123def_1704067300000`
+- Product extracted: `quickread`
+- Session ID extracted for correlation: `sess_1704067200000_abc123def`
+- `purchase_completed` event logged to PostHog
+- HTTP 302 redirect to QuickRead ChatGPT
+
+#### Full Flow
+1. **Landing**: User arrives on landing page → session generated, page view tracked
+2. **Buy Click**: Click buy button → Stripe URL enhanced, buy event tracked
+3. **Checkout**: User completes Stripe payment → `client_reference_id` preserved
+4. **Success**: Stripe redirects to purchase-redirect endpoint
+5. **Validation**: Server extracts product and session from `client_reference_id`
+6. **Analytics**: Purchase completion logged with session correlation
+7. **Product**: User redirected to their purchased product
+
 ## Environment Variables Required
 
 Make sure these are set in your `.env.local`:
@@ -110,6 +170,30 @@ STRIPE_WEBHOOK_SECRET=your_webhook_secret
 # Discord (existing functionality)
 DISCORD_WEBHOOK_URL=your_discord_webhook
 ```
+
+## Stripe Dashboard Configuration
+
+For the post-purchase redirect flow to work, you need to configure your existing Stripe Payment Links:
+
+### Recommended: Update Payment Link Success URL
+1. Go to your Stripe Dashboard → Payment Links
+2. Edit your existing QuickRead payment link: `https://buy.stripe.com/6oUdR873ad7R2GTc3rfrW00`
+3. Set the success URL to: `https://yourdomain.com/api/purchase-redirect?session_id={CHECKOUT_SESSION_ID}`
+4. Users will be redirected to your product after purchase
+
+**How it works:**
+- Client-side JavaScript enhances Stripe URLs with `client_reference_id` parameter
+- Attribution data is encoded in the `client_reference_id` (format: `product_userid_requestid_timestamp`)
+- After payment, Stripe redirects to your success URL with the session ID
+- Your backend retrieves the session from Stripe API to get the `client_reference_id`
+- Attribution data is decoded and purchase completion is tracked
+- User is redirected to their purchased product
+
+### Webhook Configuration
+1. In Stripe Dashboard → Webhooks
+2. Add endpoint: `https://yourdomain.com/api/stripe/webhook`
+3. Select events: `checkout.session.completed`
+4. Copy webhook signing secret to `STRIPE_WEBHOOK_SECRET`
 
 ## Features Implemented
 
@@ -130,21 +214,23 @@ DISCORD_WEBHOOK_URL=your_discord_webhook
 
 ## System Architecture
 
-### Request Flow
-1. User clicks marketing link → `/api/redirect?p=quickread&u=123`
-2. Server validates parameters against product allowlist
-3. Server generates request ID and extracts metadata
-4. Server sets attribution cookie and logs `redirect_to_product` event
-5. Server returns HTTP 302 redirect to product page
-6. Client loads product page and logs `product_page_view` event
-7. User clicks buy button → logs `checkout_started` event
-8. Stripe webhook receives `checkout.session.completed` → logs `purchase_completed` event
+### Complete User Journey
+
+**Simplified Landing Page Flow:**
+1. User arrives on landing page → Session ID generated, UTM params captured
+2. Page view tracked to PostHog with session data
+3. User clicks buy button → `buy_button_clicked` event logged
+4. Stripe URL enhanced with `client_reference_id` (format: `product_sessionid_timestamp`)
+5. User completes Stripe checkout → `client_reference_id` stored in session
+6. Stripe redirects to `/api/purchase-redirect?session_id=cs_xxx`
+7. Server retrieves session from Stripe API and extracts product from `client_reference_id`
+8. `purchase_completed` event logged with session correlation
+9. User redirected to purchased product (ChatGPT/Notion) with access
 
 ### Analytics Events Schema
-- `redirect_to_product`: User hit redirect endpoint
-- `product_page_view`: User viewed product page  
-- `checkout_started`: User clicked buy button
-- `purchase_completed`: Purchase completed via Stripe
+- `landing_page_view`: User arrived on landing page (with UTM data)
+- `buy_button_clicked`: User clicked buy button (with enhanced Stripe URL)
+- `purchase_completed`: Purchase completed via Stripe (with session correlation)
 
 ### Attribution Cookie Format
 ```json
