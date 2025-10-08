@@ -4,6 +4,7 @@
  * Handles GET requests to /api/redirect with query parameters:
  * - p (required): product slug
  * - u (optional): user identifier
+ * - source (optional): traffic source (e.g., 'email', 'social', etc.)
  * 
  * Returns HTTP 302 redirect to the mapped product URL with attribution tracking.
  */
@@ -28,7 +29,8 @@ import type { RedirectResponse, ValidationError } from '@/lib/analytics-types';
  */
 function validateRequest(
   productSlug: string | null, 
-  userId: string | null
+  userId: string | null,
+  source: string | null
 ): ValidationError[] {
   const errors: ValidationError[] = [];
   
@@ -62,6 +64,18 @@ function validateRequest(
     }
   }
   
+  // Validate source (optional)
+  if (source) {
+    const sanitized = sanitizeInput(source);
+    if (!sanitized || !/^[a-zA-Z0-9_-]+$/.test(sanitized)) {
+      errors.push({
+        field: 'source',
+        message: 'Invalid source format - only alphanumeric characters, hyphens, and underscores allowed',
+        received: source
+      });
+    }
+  }
+  
   return errors;
 }
 
@@ -77,9 +91,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const url = new URL(request.url);
     const productSlug = url.searchParams.get('p');
     const checkoutID = url.searchParams.get('u');
+    const source = url.searchParams.get('source');
     
     // Validate required parameters
-    const validationErrors = validateRequest(productSlug, checkoutID);
+    const validationErrors = validateRequest(productSlug, checkoutID, source);
     if (validationErrors.length > 0) {
       console.warn('Redirect validation failed:', validationErrors);
       return NextResponse.json(
@@ -117,9 +132,16 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     );
     
     // Build destination URL (handle both internal and external URLs)
-    const destinationUrl = product.url.startsWith('http') 
+    let destinationUrl = product.url.startsWith('http') 
       ? product.url // External URL - use as-is
       : `${new URL(request.url).origin}${product.url}`; // Internal URL - add origin
+    
+    // Add source parameter to destination URL if provided
+    if (source) {
+      const urlObj = new URL(destinationUrl);
+      urlObj.searchParams.set('utm_source', source);
+      destinationUrl = urlObj.toString();
+    }
     
     // Log analytics event and wait for completion (with a short timeout so we don't block forever)
     const redirectEvent = createRedirectEvent(
@@ -248,12 +270,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         }, 3000);
         
         // Handle page visibility changes (e.g., if user switches tabs)
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                // Page became hidden, ensure analytics request is sent
-                navigator.sendBeacon('/api/analytics/track', JSON.stringify(analyticsEvent));
-            }
-        });
+        // document.addEventListener('visibilitychange', () => {
+        //     if (document.hidden) {
+        //         // Page became hidden, ensure analytics request is sent
+        //         navigator.sendBeacon('/api/analytics/track', JSON.stringify(analyticsEvent));
+        //     }
+        // });
     </script>
 </body>
 </html>`;
