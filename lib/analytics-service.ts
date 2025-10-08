@@ -41,6 +41,8 @@ export class AnalyticsService {
           referrer: event.referrer,
           user_agent: event.user_agent,
           source_ip: event.source_ip,
+              // Traffic source (optional)
+              source: (event as any).source,
           
           // Event-specific properties
           ...this.getEventSpecificProperties(event)

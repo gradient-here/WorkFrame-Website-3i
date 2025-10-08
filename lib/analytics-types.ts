@@ -23,6 +23,8 @@ export interface BaseEvent {
   user_agent?: string;
   /** Source IP address (for analytics, not stored as PII) */
   source_ip?: string;
+  /** Optional traffic source string (e.g., 'email', 'social') */
+  source?: string;
 }
 
 /**

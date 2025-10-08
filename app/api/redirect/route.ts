@@ -199,7 +199,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     <script>
         // Analytics event data
         const analyticsEvent = ${JSON.stringify(redirectEvent)};
-        const destinationUrl = '${destinationUrl}';
+        // const destinationUrl = '${destinationUrl}';
         
         // Track analytics with server-side endpoint
         const trackAnalytics = async () => {
