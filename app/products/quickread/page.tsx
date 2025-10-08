@@ -1,9 +1,17 @@
 'use client';
 
+// Declare global Reddit pixel function
+declare global {
+  interface Window {
+    rdt?: (event: string, action: string, data?: any) => void;
+  }
+}
+
 import { Button } from "@/components/ui/button"
 import { Check } from "lucide-react"
 import { useLandingPageAttribution } from "@/hooks/useLandingPageAttribution"
 import Head from "next/head"
+import Script from "next/script"
 
 export default function QuickreadPage() {
   const { handleBuyButtonClick } = useLandingPageAttribution();
@@ -14,6 +22,11 @@ export default function QuickreadPage() {
   // Handle checkout button clicks
   const handleCheckoutClick = () => {
     const enhancedUrl = handleBuyButtonClick('quickread', STRIPE_CHECKOUT_URL);
+    
+    // Track Reddit conversion event
+    if (typeof window !== 'undefined' && window.rdt) {
+      window.rdt('track', 'Buy_Button_Click');
+    }
     
     console.log('🔗 Original Stripe URL:', STRIPE_CHECKOUT_URL);
     console.log('✨ Enhanced with attribution:', enhancedUrl);
@@ -27,6 +40,17 @@ export default function QuickreadPage() {
         <title>Quickread — Choose your next book with confidence</title>
         <meta name="description" content="Goal‑based book picks, rationales, and a reading queue that feeds your notes." />
       </Head>
+      
+      {/* Reddit Pixel */}
+      <Script
+        id="reddit-pixel"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);rdt('init','a2_gqf2t1jw2qjy');rdt('track', 'PageVisit');
+          `
+        }}
+      />
       <div>
       {/* Header */}
       <section className="border-b">
