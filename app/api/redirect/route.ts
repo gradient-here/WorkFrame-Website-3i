@@ -121,7 +121,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       ? product.url // External URL - use as-is
       : `${new URL(request.url).origin}${product.url}`; // Internal URL - add origin
     
-    // Log analytics event (fire-and-forget)
+    // Log analytics event and wait for completion (with a short timeout so we don't block forever)
     const redirectEvent = createRedirectEvent(
       productSlug!,
       destinationUrl,
@@ -129,10 +129,18 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       metadata,
       checkoutID || undefined
     );
-    // requestId,
-    
-    logAnalyticsEventAsync(redirectEvent);
-    
+
+    try {
+      // Await the analytics call but don't wait longer than 2000ms
+      await Promise.race([
+        logAnalyticsEventAsync(redirectEvent),
+        new Promise((resolve) => setTimeout(resolve, 2000))
+      ]);
+    } catch (err) {
+      // If analytics fails, log the error but continue with the redirect
+      console.error('Analytics logging failed:', err);
+    }
+
     // Create response with 302 redirect
     const response = NextResponse.redirect(destinationUrl, {
       status: 302,
