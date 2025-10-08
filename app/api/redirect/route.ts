@@ -270,12 +270,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         }, 3000);
         
         // Handle page visibility changes (e.g., if user switches tabs)
-        // document.addEventListener('visibilitychange', () => {
-        //     if (document.hidden) {
-        //         // Page became hidden, ensure analytics request is sent
-        //         navigator.sendBeacon('/api/analytics/track', JSON.stringify(analyticsEvent));
-        //     }
-        // });
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Page became hidden, ensure analytics request is sent
+                navigator.sendBeacon('/api/analytics/track', JSON.stringify(analyticsEvent));
+            }
+        });
     </script>
 </body>
 </html>`;
