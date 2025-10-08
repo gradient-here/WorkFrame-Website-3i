@@ -10,7 +10,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getProductBySlug } from '@/lib/product-config';
-import { logAnalyticsEventAsync } from '@/lib/analytics-service';
+// Analytics will be tracked client-side via /api/analytics/track
 import {
   generateRequestId,
   extractRequestMetadata,
@@ -130,25 +130,97 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       checkoutID || undefined
     );
 
-    try {
-      // Await the analytics call but don't wait longer than 2000ms
-      await Promise.race([
-        logAnalyticsEventAsync(redirectEvent),
-        new Promise((resolve) => setTimeout(resolve, 2000))
-      ]);
-    } catch (err) {
-      // If analytics fails, log the error but continue with the redirect
-      console.error('Analytics logging failed:', err);
-    }
+    // Create HTML page with client-side analytics and redirect
+    const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Redirecting...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f8fafc;
+            color: #64748b;
+        }
+        .loader {
+            text-align: center;
+        }
+        .spinner {
+            border: 2px solid #e2e8f0;
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+        <p>Redirecting you now...</p>
+    </div>
+    
+    <script>
+        // Analytics event data
+        const analyticsEvent = ${JSON.stringify(redirectEvent)};
+        
+        // Track analytics with server-side endpoint
+        const trackAnalytics = async () => {
+            try {
+                await fetch('/api/analytics/track', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(analyticsEvent),
+                    keepalive: true // Ensures request completes even after page unload
+                });
+            } catch (error) {
+                console.warn('Analytics tracking failed:', error);
+            }
+        };
+        
+        // Perform redirect
+        const redirect = () => {
+            window.location.href = '${destinationUrl}';
+        };
+        
+        // Track analytics and redirect
+        Promise.race([
+            trackAnalytics(),
+            new Promise(resolve => setTimeout(resolve, 1000)) // 1s max wait
+        ]).finally(() => {
+            redirect();
+        });
+        
+        // Fallback redirect in case everything fails
+        setTimeout(redirect, 2000);
+    </script>
+</body>
+</html>`;
 
-    // Create response with 302 redirect
-    const response = NextResponse.redirect(destinationUrl, {
-      status: 302,
-      headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0'
-      }
+    // Create HTML response
+    const response = new NextResponse(htmlContent, {
+        status: 200,
+        headers: {
+            'Content-Type': 'text/html; charset=utf-8',
+            'Cache-Control': 'no-cache, no-store, must-revalidate, private',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+        }
     });
     
     // Set attribution cookie
