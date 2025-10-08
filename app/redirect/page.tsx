@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect } from "react"
 import { getProductBySlug } from "@/lib/product-config"
-import { createRedirectEvent, getCurrentTimestamp } from "@/lib/attribution-utils"
+import { createRedirectEvent } from "@/lib/attribution-utils"
 
 function generateClientRequestId(): string {
   try {
@@ -26,13 +26,13 @@ export default function RedirectPage() {
       const source = params.get('source')
 
       if (!p) {
-        console.warn('Redirect page: missing product slug (p)')
+        window.location.href = '/'
         return
       }
 
       const product = getProductBySlug(p)
       if (!product) {
-        console.warn('Redirect page: unknown product slug', p)
+        window.location.href = '/404'
         return
       }
 
@@ -56,37 +56,27 @@ export default function RedirectPage() {
 
       const analyticsEvent = createRedirectEvent(p, destinationUrl, requestId, metadata as any, u || undefined, source || undefined)
 
-      // Set a simple client-side attribution cookie
-      try {
-        const attribution = { p, u: u || undefined, rid: requestId, ts: getCurrentTimestamp() }
-        const cookieVal = encodeURIComponent(JSON.stringify(attribution))
-        const maxAge = 7 * 24 * 60 * 60 // 7 days
-        const secureFlag = window.location.protocol === 'https:' ? '; Secure' : ''
-        document.cookie = `wf_attribution=${cookieVal}; Max-Age=${maxAge}; Path=/; SameSite=Lax${secureFlag}`
-      } catch (err) {
-        console.warn('Failed to set attribution cookie', err)
-      }
+      const trackAnalytics = () => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            const res = await fetch('/api/analytics/track', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(analyticsEvent),
+              keepalive: true,
+            })
 
-      const trackAnalytics = async () => {
-        try {
-          const controller = new AbortController()
-          const timeoutId = setTimeout(() => controller.abort(), 800)
+            if (!res.ok) throw new Error('Analytics endpoint returned non-OK')
 
-          const res = await fetch('/api/analytics/track', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(analyticsEvent),
-            keepalive: true,
-            signal: controller.signal
-          })
+            resolve(res)
+          } catch (error: any) {
+            if (error?.name !== 'AbortError') {
+              console.warn('Analytics tracking failed:', error)
+            }
 
-          clearTimeout(timeoutId)
-          if (!res.ok) throw new Error('Analytics endpoint returned non-OK')
-        } catch (error: any) {
-          if (error?.name !== 'AbortError') {
-            console.warn('Analytics tracking failed:', error)
+            reject(error)
           }
-        }
+        })
       }
 
       const redirect = () => {
@@ -97,11 +87,8 @@ export default function RedirectPage() {
         }
       }
 
-      Promise.race([trackAnalytics(), new Promise((r) => setTimeout(r, 1000))]).finally(() => {
-        redirect()
-      })
+      trackAnalytics().then(() => { redirect() }).catch(() => redirect())
 
-      setTimeout(() => redirect(), 3000)
     } catch (err) {
       console.error('Redirect client error', err)
     }
