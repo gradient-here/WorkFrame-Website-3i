@@ -16,7 +16,17 @@ import type { AnalyticsEvent } from '@/lib/analytics-types';
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     // Parse the analytics event from request body
-    const analyticsEvent: AnalyticsEvent = await request.json();
+    // Handle both JSON and sendBeacon (text/plain) requests
+    let analyticsEvent: AnalyticsEvent;
+    const contentType = request.headers.get('content-type') || '';
+    
+    if (contentType.includes('application/json')) {
+      analyticsEvent = await request.json();
+    } else {
+      // Handle sendBeacon requests (sent as text/plain)
+      const textBody = await request.text();
+      analyticsEvent = JSON.parse(textBody);
+    }
     
     // Validate required fields
     if (!analyticsEvent.event_type || !analyticsEvent.request_id) {

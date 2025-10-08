@@ -176,38 +176,84 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     <script>
         // Analytics event data
         const analyticsEvent = ${JSON.stringify(redirectEvent)};
+        const destinationUrl = '${destinationUrl}';
         
         // Track analytics with server-side endpoint
         const trackAnalytics = async () => {
             try {
-                await fetch('/api/analytics/track', {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 800); // Shorter timeout
+                
+                const response = await fetch('/api/analytics/track', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(analyticsEvent),
-                    keepalive: true // Ensures request completes even after page unload
+                    keepalive: true, // Ensures request completes even after page unload
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error('Analytics request failed');
+                }
+                
+                console.log('Analytics tracked successfully');
             } catch (error) {
-                console.warn('Analytics tracking failed:', error);
+                if (error.name !== 'AbortError') {
+                    console.warn('Analytics tracking failed:', error);
+                }
             }
         };
         
-        // Perform redirect
+        // Perform redirect with fallback for cross-domain issues
         const redirect = () => {
-            window.location.href = '${destinationUrl}';
+            try {
+                // For cross-domain redirects, use window.location.href
+                window.location.href = destinationUrl;
+            } catch (error) {
+                console.error('Redirect failed:', error);
+                // Fallback: try window.open as last resort
+                window.open(destinationUrl, '_self');
+            }
         };
         
-        // Track analytics and redirect
-        Promise.race([
-            trackAnalytics(),
-            new Promise(resolve => setTimeout(resolve, 1000)) // 1s max wait
-        ]).finally(() => {
-            redirect();
-        });
+        // Wait for DOM to be fully loaded
+        const init = () => {
+            console.log('Starting redirect process...');
+            
+            // Track analytics and redirect
+            Promise.race([
+                trackAnalytics(),
+                new Promise(resolve => setTimeout(resolve, 1000)) // 1s max wait
+            ]).finally(() => {
+                console.log('Analytics complete or timed out, redirecting...');
+                redirect();
+            });
+        };
         
-        // Fallback redirect in case everything fails
-        setTimeout(redirect, 2000);
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+        
+        // Ultimate fallback redirect in case everything fails
+        setTimeout(() => {
+            console.log('Fallback redirect triggered');
+            redirect();
+        }, 3000);
+        
+        // Handle page visibility changes (e.g., if user switches tabs)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Page became hidden, ensure analytics request is sent
+                navigator.sendBeacon('/api/analytics/track', JSON.stringify(analyticsEvent));
+            }
+        });
     </script>
 </body>
 </html>`;
