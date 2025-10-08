@@ -87,7 +87,7 @@ export default function RedirectPage() {
         }
       }
 
-      trackAnalytics().then(() => { redirect() }).catch(() => redirect())
+      trackAnalytics().then(() => { redirect() }).catch((e) => console.log('Analytics tracking failed :: ' + e)
 
     } catch (err) {
       console.error('Redirect client error', err)
