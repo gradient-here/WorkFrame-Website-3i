@@ -149,7 +149,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       destinationUrl,
       "00000000-0000-0000-0000-000000000000", // Placeholder requestId
       metadata,
-      checkoutID || undefined
+      checkoutID || undefined,
+      source || undefined
     );
 
     // Create HTML page with client-side analytics and redirect

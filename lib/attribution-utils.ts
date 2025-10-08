@@ -156,7 +156,8 @@ export function createBaseEventData(
   product: string,
   requestId: string,
   metadata: RequestMetadata,
-  userId?: string
+  userId?: string,
+  source?: string
 ) {
   return {
     request_id: requestId,
@@ -165,7 +166,8 @@ export function createBaseEventData(
     user_id: userId ? sanitizeInput(userId) : undefined,
     referrer: sanitizeInput(metadata.referrer),
     user_agent: sanitizeInput(metadata.user_agent),
-    source_ip: metadata.source_ip // Already sanitized by header extraction
+    source_ip: metadata.source_ip, // Already sanitized by header extraction
+    source: source ? sanitizeInput(source) : undefined
   };
 }
 
@@ -177,11 +179,12 @@ export function createRedirectEvent(
   destinationUrl: string,
   requestId: string,
   metadata: RequestMetadata,
-  userId?: string
+  userId?: string,
+  source?: string
 ): RedirectToProductEvent {
   return {
     event_type: 'redirect_to_product',
-    ...createBaseEventData(product, requestId, metadata, userId),
+    ...createBaseEventData(product, requestId, metadata, userId, source),
     destination_url: sanitizeInput(destinationUrl) || '',
     redirect_status: 302
   };
