@@ -194,5 +194,5 @@ Clear call-to-action button: "Start a synthesis" that links to `/account/onboard
 - **Chat on a Page**: Reading with inline citations + atomic note export
 - **Topic Atomizer**: Cross-discipline prompts with opposing views
 - **QuickRead**: Physical + digital book scanning, one-time purchase, instant decisions
-- **Zettelkasten**: Three-core-database with bi-directional links and knowledge analytics
+- **Zettelkasten**: Three-core-database with bidirectional links and knowledge analytics
 - **Chat (Synthesis)**: Notes-to-publication with citations from your own knowledge graph
