@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
 async function sendDiscordWebhook({ action }: {action: string}) {
-  const content = `Community Engagement!\action: ${action}`
+  const content = `Community Engagement!\\action: ${action}`
   const res = await fetch("/api/discord-webhook", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

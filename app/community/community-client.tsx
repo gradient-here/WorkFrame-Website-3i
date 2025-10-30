@@ -3,13 +3,8 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
-// export const metadata = {
-//   title: "WorkFrame Community — Challenges and workshops",
-//   description: "Join creators and researchers building better reading and writing habits together.",
-// }
-
 async function sendDiscordWebhook({ action }: {action: string}) {
-  const content = `Community Engagement!\action: ${action}`
+  const content = `Community Engagement!\\action: ${action}`
   const res = await fetch("/api/discord-webhook", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

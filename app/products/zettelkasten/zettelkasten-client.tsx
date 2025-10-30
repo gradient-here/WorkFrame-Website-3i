@@ -10,7 +10,7 @@ function classNames(...classes: (string | boolean | undefined)[]) {
 }
 
 async function sendDiscordWebhook({ action }: {action: string}) {
-  const content = `Product Engagement!\action: ${action}`
+  const content = `Product Engagement!\\action: ${action}`
   const res = await fetch("/api/discord-webhook", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
